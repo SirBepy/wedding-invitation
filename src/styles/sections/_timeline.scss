@@ -63,27 +63,4 @@
     text-align: center;
     white-space: nowrap;
   }
-
-  // Locations section
-  .timeline-locations {
-    display: flex;
-    gap: 3em;
-    margin-top: 3em;
-  }
-
-  .timeline-locations__item {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-  }
-
-  .timeline-locations__icon {
-    width: 1.5em;
-    height: 1.5em;
-  }
-
-  .timeline-locations__title {
-    font-size: 1.0625em; // 17px
-    color: $color-secondary;
-  }
 }

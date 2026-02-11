@@ -1,0 +1,47 @@
+@use "../variables" as *;
+
+.location-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1em;
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &__icon {
+    width: 1.8em;
+    height: 1.8em;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    color: $color-accent;
+    font-size: 1em;
+    line-height: 1.4;
+  }
+
+  &--vertical &__text {
+    text-align: center;
+  }
+
+  &--horizontal &__text {
+    text-align: left;
+  }
+
+  &__line {
+    display: block;
+  }
+}

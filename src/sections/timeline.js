@@ -1,3 +1,5 @@
+import { locationButton } from "../components/location-button.js";
+
 const timelineItems = [
   { time: "14:00", icon: "/icons/sign.svg", title: "Welcome Party" },
   { time: "16:30", icon: "/icons/church.svg", title: "Church Ceremony" },
@@ -9,8 +11,11 @@ const timelineItems = [
 ];
 
 const locations = [
-  { icon: "/icons/location.svg", title: "All Other Events" },
-  { icon: "/icons/location.svg", title: "Church" },
+  {
+    title: "All Other Events",
+    link: "https://maps.app.goo.gl/Niw21p7dzi6Ryziq9",
+  },
+  { title: "Church", link: "https://maps.app.goo.gl/srK3JGs34MgFSgfi9" },
 ];
 
 export function timeline() {
@@ -36,13 +41,12 @@ export function timeline() {
 
         <div class="timeline-locations">
           ${locations
-            .map(
-              (loc) => `
-            <div class="timeline-locations__item">
-              <img class="timeline-locations__icon" src="${loc.icon}" alt="">
-              <span class="timeline-locations__title font-decorative2">${loc.title}</span>
-            </div>
-          `,
+            .map((loc) =>
+              locationButton({
+                texts: [loc.title],
+                link: loc.link,
+                layout: "horizontal",
+              }),
             )
             .join("")}
         </div>
