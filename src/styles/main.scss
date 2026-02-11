@@ -1,4 +1,5 @@
 @use "sass:color";
+@use 'variables' as *;
 
 @font-face {
   font-family: 'Angella White';
@@ -44,9 +45,6 @@
   font-family: serif;
 }
 
-$color-bg: #f4ecff;
-$color-accent: #b25d7f;
-$color-primary: #634981;
 
 body {
   margin: 0;
