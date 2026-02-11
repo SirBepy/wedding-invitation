@@ -17,7 +17,7 @@ export function timeline() {
   return `
     <section id="timeline" class="section">
       <div class="timeline-content">
-        <h1 class="section-title">Wedding Timeline</h1>
+        <h1>Wedding Timeline</h1>
 
         <div class="timeline">
           ${timelineItems

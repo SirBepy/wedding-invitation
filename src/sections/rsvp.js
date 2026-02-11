@@ -2,7 +2,7 @@ export function rsvp() {
   return `
     <section id="rsvp" class="section">
       <div class="landing-content">
-        <h1 class="section-title">RSVP</h1>
+        <h1>RSVP</h1>
         <p class="font-text landing-text">BY AUGUST 29TH</p>
         <p class="font-text landing-text">Or via WhatsApp</p>
         <div>

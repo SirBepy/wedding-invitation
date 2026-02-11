@@ -39,7 +39,7 @@ export function faqs() {
   return `
     <section id="faqs" class="section">
       <div class="faqs-content">
-        <h1 class="section-title">FAQs</h1>
+        <h1>FAQs</h1>
         <div class="faqs-container">
           <div class="faqs-categories">
             ${faqCategories

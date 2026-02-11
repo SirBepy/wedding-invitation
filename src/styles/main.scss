@@ -6,6 +6,7 @@
   src: url("/fonts/Angella-White.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -30,7 +31,7 @@
 }
 
 .font-section-title {
-  font-family: "Angella White", serif;
+  font-family: "Angella White", cursive;
 }
 .font-decorative1 {
   // Seems to be for numbers above icons
@@ -67,8 +68,9 @@ body {
   justify-content: center;
 }
 
-.section-title {
-  font-family: "Angella White", serif;
+h1 {
+  font-family: "Angella White", cursive;
   font-size: 5em;
   color: $color-accent;
+  font-weight: 400;
 }

@@ -10,7 +10,7 @@ export function details() {
   return `
     <section id="details" class="section">
       <div class="details-content">
-        <h1 class="section-title">Details</h1>
+        <h1>Details</h1>
         <ul class="details-list">
           ${items
             .map(
