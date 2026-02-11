@@ -1,4 +1,6 @@
 import './styles/main.scss'
+import './styles/components/_navbar.scss'
+import './styles/components/_location-button.scss'
 import './styles/sections/_landing.scss'
 import './styles/sections/_details.scss'
 import './styles/sections/_timeline.scss'
@@ -6,6 +8,7 @@ import './styles/sections/_faqs.scss'
 import './styles/sections/_rsvp.scss'
 // import './styles/sections/_envelope.scss'
 
+import { navbar } from './components/navbar.js'
 import { landing } from './sections/landing.js'
 import { details } from './sections/details.js'
 import { timeline } from './sections/timeline.js'
@@ -14,6 +17,7 @@ import { rsvp } from './sections/rsvp.js'
 // import { envelope, initEnvelopeSection } from './sections/envelope.js'
 
 document.getElementById('app').innerHTML = [
+  navbar(),
   landing(),
   details(),
   timeline(),
