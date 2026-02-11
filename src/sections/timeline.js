@@ -1,7 +1,52 @@
+const timelineItems = [
+  { time: "14:00", icon: "/icons/sign.svg", title: "Welcome Party" },
+  { time: "16:30", icon: "/icons/church.svg", title: "Church Ceremony" },
+  { time: "18:00", icon: "/icons/drinks.svg", title: "Cocktail Hour" },
+  // { time: '19:00', icon: '', title: '' },
+  // { time: '19:30', icon: '', title: '' },
+  // { time: '23:00', icon: '', title: '' },
+  // { time: '3:00', icon: '', title: '' },
+];
+
+const locations = [
+  { icon: "/icons/location.svg", title: "All Other Events" },
+  { icon: "/icons/location.svg", title: "Church" },
+];
+
 export function timeline() {
   return `
     <section id="timeline" class="section">
-      <h1 class="section-title">Timeline</h1>
+      <div class="timeline-content">
+        <h1 class="section-title">Wedding Timeline</h1>
+
+        <div class="timeline">
+          ${timelineItems
+            .map(
+              (item) => `
+            <div class="timeline__item">
+              <span class="timeline__time font-decorative1">${item.time}</span>
+              <div class="timeline__dot"></div>
+              <img class="timeline__icon" src="${item.icon}" alt="">
+              <span class="timeline__title font-decorative2">${item.title}</span>
+            </div>
+          `,
+            )
+            .join("")}
+        </div>
+
+        <div class="timeline-locations">
+          ${locations
+            .map(
+              (loc) => `
+            <div class="timeline-locations__item">
+              <img class="timeline-locations__icon" src="${loc.icon}" alt="">
+              <span class="timeline-locations__title font-decorative2">${loc.title}</span>
+            </div>
+          `,
+            )
+            .join("")}
+        </div>
+      </div>
     </section>
-  `
+  `;
 }

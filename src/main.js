@@ -9,7 +9,7 @@ import './styles/sections/_rsvp.scss'
 import { landing } from './sections/landing.js'
 import { details } from './sections/details.js'
 import { timeline } from './sections/timeline.js'
-import { faqs } from './sections/faqs.js'
+import { faqs, initFaqsSection } from './sections/faqs.js'
 import { rsvp } from './sections/rsvp.js'
 // import { envelope, initEnvelopeSection } from './sections/envelope.js'
 
@@ -22,4 +22,5 @@ document.getElementById('app').innerHTML = [
   // envelope(),
 ].join('')
 
+initFaqsSection()
 // initEnvelopeSection()

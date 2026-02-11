@@ -1,2 +1,49 @@
+@use "../variables" as *;
+
 #details {
+  .details-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .details-list__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .details-list__label {
+    color: $color-primary;
+    font-size: 1.1em;
+    text-align: right;
+    flex: 1;
+    padding: 0.5em 1.5em;
+  }
+
+  .details-list__label::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: black;
+    width: 100px;
+    height: 100px;
+  }
+
+  .details-list__value {
+    color: $color-primary;
+    font-size: 1.1em;
+    text-align: left;
+    opacity: 0.3;
+    flex: 1;
+    padding: 0.5em 1.5em;
+  }
 }

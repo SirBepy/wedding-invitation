@@ -4,7 +4,7 @@ export function landing() {
       <div class="landing-content">
         <h1 class="section-title">You're Invited</h1>
         <p class="font-text landing-text">To the wedding of</p>
-        <p class="font-decorative3 landing-names">Josip & Storm</p>
+        <p class="font-decorative3 landing-names">JOSIP & STORM</p>
         <p class="font-text landing-text">On</p>
         <p class="font-text landing-text landing-text--faded">Saturday, September 12th</p>
         <!-- TODO: link to calendar -->
@@ -16,5 +16,5 @@ export function landing() {
         <p class="font-text landing-rsvp">RSVP by August 29th</p>
       </div>
     </section>
-  `
+  `;
 }

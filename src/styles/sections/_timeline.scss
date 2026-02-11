@@ -1,2 +1,89 @@
+@use "../variables" as *;
+
 #timeline {
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timeline {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    padding: 0 2em;
+
+    // horizontal line through the dots
+    &::before {
+      content: "";
+      position: absolute;
+      top: 3.4em; // aligns with center of dots (time height + gap + dot radius)
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: $color-primary;
+    }
+  }
+
+  .timeline__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-width: 7em;
+    padding: 0 1.5em;
+  }
+
+  .timeline__time {
+    font-size: 1.5625em; // 25px
+    color: $color-primary;
+    margin-bottom: 0.4em;
+  }
+
+  .timeline__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: $color-primary;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .timeline__icon {
+    width: 2.5em;
+    height: 2.5em;
+    margin-top: 0.8em;
+  }
+
+  .timeline__title {
+    font-size: 1.0625em; // 17px
+    color: $color-secondary;
+    margin-top: 0.3em;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  // Locations section
+  .timeline-locations {
+    display: flex;
+    gap: 3em;
+    margin-top: 3em;
+  }
+
+  .timeline-locations__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .timeline-locations__icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .timeline-locations__title {
+    font-size: 1.0625em; // 17px
+    color: $color-secondary;
+  }
 }

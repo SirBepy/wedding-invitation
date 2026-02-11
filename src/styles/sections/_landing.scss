@@ -1,4 +1,4 @@
-@use '../variables' as *;
+@use "../variables" as *;
 
 #landing {
   .landing-content {
@@ -21,14 +21,22 @@
 
   .landing-names {
     color: $color-primary;
-    font-size: 3.5em;
+    font-size: 36px;
+    letter-spacing: 0.3em;
+    padding-left: 0.3em;
+    font-weight: 400;
     margin: 0;
+    text-align: center;
   }
 
   .landing-date {
     color: $color-primary;
-    font-size: 3em;
+    font-size: 34px;
+    letter-spacing: 0.8em;
+    padding-left: 0.8em;
+    font-weight: 400;
     margin: 0;
+    text-align: center;
   }
 
   .landing-location {
