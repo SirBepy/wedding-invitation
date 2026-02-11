@@ -4,7 +4,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // You can add global SCSS variables/mixins here if needed
+        api: 'modern-compiler'
       }
     }
   }
