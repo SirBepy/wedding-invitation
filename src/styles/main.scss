@@ -62,6 +62,13 @@ html {
 body {
   margin: 0;
   background-color: $color-bg;
+  color: $color-primary;
+  font-weight: 400;
+  font-style: normal;
+  font-kerning: none;
+  text-decoration-line: none;
+  text-decoration-thickness: initial;
+  text-decoration-style: initial;
 }
 
 .section {
@@ -74,7 +81,26 @@ body {
 
 h1 {
   font-family: "Angella White", cursive;
-  font-size: 5em;
+  font-size: 80px;
   color: $color-accent;
   font-weight: 400;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: all 0.3s;
+
+  * {
+    transition: all 0.3s;
+  }
+
+  &:hover {
+    color: $color-accent;
+    text-shadow: 0 0 6px $color-accent;
+  }
+
+  &:active {
+    text-shadow: 0 0 0px $color-accent;
+  }
 }

@@ -3,7 +3,6 @@
 .location-btn {
   display: inline-flex;
   align-items: center;
-  gap: 1em;
   text-decoration: none;
   transition: opacity 0.2s;
 
@@ -20,8 +19,8 @@
   }
 
   &__icon {
-    width: 1.8em;
-    height: 1.8em;
+    width: 3em;
+    height: 3em;
     flex-shrink: 0;
   }
 
@@ -29,8 +28,9 @@
     display: flex;
     flex-direction: column;
     color: $color-accent;
-    font-size: 1em;
-    line-height: 1.4;
+    font-size: 16px;
+    line-height: 1.6em;
+    letter-spacing: 0.281em;
   }
 
   &--vertical &__text {
