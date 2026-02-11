@@ -1,50 +1,58 @@
 @use "sass:color";
-@use 'variables' as *;
+@use "variables" as *;
 
 @font-face {
-  font-family: 'Angella White';
-  src: url('/fonts/Angella-White.ttf') format('truetype');
+  font-family: "Angella White";
+  src: url("/fonts/Angella-White.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Birthstone';
-  src: url('/fonts/Birthstone-Regular.ttf') format('truetype');
+  font-family: "Birthstone";
+  src: url("/fonts/Birthstone-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Breathing';
-  src: url('/fonts/Breathing.ttf') format('truetype');
+  font-family: "Breathing";
+  src: url("/fonts/Breathing.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Catch-Mager';
-  src: url('/fonts/Catch-Mager.ttf') format('truetype');
+  font-family: "Catch-Mager";
+  src: url("/fonts/Catch-Mager.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 .font-section-title {
-  font-family: 'Angella White', serif;
+  font-family: "Angella White", serif;
 }
-.font-decorative1 { // Seems to be for numbers above icons
-  font-family: 'Birthstone', cursive;
+.font-decorative1 {
+  // Seems to be for numbers above icons
+  font-family: "Birthstone", cursive;
 }
-.font-decorative2 { // Seems to be used for titles of icons
-  font-family: 'Breathing', cursive;
+.font-decorative2 {
+  // Seems to be used for titles of icons
+  font-family: "Breathing", cursive;
 }
-.font-decorative3 { // Seems to be used only for the numbers on the landing page
-  font-family: 'Catch-Mager', cursive;
+.font-decorative3 {
+  // Seems to be used only for the numbers on the landing page
+  font-family: "Catch-Mager", cursive;
 }
 .font-text {
   font-family: serif;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -52,7 +60,7 @@ body {
 }
 
 .section {
-  min-width: 100vw;
+  min-width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -60,8 +68,7 @@ body {
 }
 
 .section-title {
-  font-family: 'Angella White', serif;
+  font-family: "Angella White", serif;
   font-size: 5em;
   color: $color-accent;
 }
-
