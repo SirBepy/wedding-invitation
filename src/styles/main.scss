@@ -44,7 +44,9 @@
   font-family: serif;
 }
 
-$color-bg: color.adjust(#0077b2, $lightness: 48%);
+$color-bg: #f4ecff;
+$color-accent: #b25d7f;
+$color-primary: #634981;
 
 body {
   margin: 0;
@@ -61,7 +63,8 @@ body {
 
 .section-title {
   font-family: 'Angella White', serif;
-  font-size: 3rem;
+  font-size: 5em;
+  color: $color-accent;
 }
 
 @import 'sections/landing';
