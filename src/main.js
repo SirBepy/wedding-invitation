@@ -8,7 +8,7 @@ import './styles/sections/_faqs.scss'
 import './styles/sections/_rsvp.scss'
 // import './styles/sections/_envelope.scss'
 
-import { navbar } from './components/navbar.js'
+import { navbar, initNavbar } from './components/navbar.js'
 import { landing } from './sections/landing.js'
 import { details } from './sections/details.js'
 import { timeline } from './sections/timeline.js'
@@ -26,5 +26,9 @@ document.getElementById('app').innerHTML = [
   // envelope(),
 ].join('')
 
+initNavbar()
 initFaqsSection()
 // initEnvelopeSection()
+
+// TODO: Add form to RSVP
+// TODO: Write Note: If you want a plus 1, please RSVP contact us directly first.
