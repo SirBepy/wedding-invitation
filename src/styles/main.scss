@@ -63,12 +63,21 @@ body {
   margin: 0;
   background-color: $color-bg;
   color: $color-primary;
+}
+
+body,
+p,
+a,
+h2,
+h3,
+button {
   font-weight: 400;
   font-style: normal;
   font-kerning: none;
   text-decoration-line: none;
   text-decoration-thickness: initial;
   text-decoration-style: initial;
+  letter-spacing: 0.279em;
 }
 
 .section {
