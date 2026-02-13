@@ -1,13 +1,13 @@
 import { locationButton } from "../components/location-button.js";
 
 const timelineItems = [
-  { time: "14:00", icon: "/icons/sign.svg", title: "Welcome Party" },
-  { time: "16:30", icon: "/icons/church.svg", title: "Church Ceremony" },
-  { time: "18:00", icon: "/icons/drinks.svg", title: "Cocktail Hour" },
-  // { time: '19:00', icon: '', title: '' },
-  // { time: '19:30', icon: '', title: '' },
-  // { time: '23:00', icon: '', title: '' },
-  // { time: '3:00', icon: '', title: '' },
+  { time: "14:00", icon: "/icons/sign.svg", title: "Welcome<br/>Party" },
+  { time: "16:30", icon: "/icons/church.svg", title: "Church<br/>Ceremony" },
+  { time: "18:00", icon: "/icons/drinks.svg", title: "Cocktail<br/>Hour" },
+  { time: "19:00", icon: "/icons/plate.svg", title: "First Course" },
+  { time: "19:30", icon: "/icons/disco.svg", title: "Party" },
+  { time: "23:00", icon: "/icons/cake.svg", title: "Deserts &<br/>Cake" },
+  { time: "3:00", icon: "/icons/car.svg", title: "The End" },
 ];
 
 const locations = [
