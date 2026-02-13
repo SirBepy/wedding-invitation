@@ -1,2 +1,72 @@
+@use "../variables" as *;
+
 #rsvp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .by-date-text {
+    font-size: 40px;
+    margin: 20px 0 30px;
+  }
+
+  .or-via-text {
+    font-size: 25px;
+    margin: 40px 0 60px;
+  }
+
+  .rsvp-button {
+    font-size: 25px;
+    margin: 20px 0;
+
+    .button__front {
+      padding: 0.8em 4em;
+    }
+  }
+
+  .rsvp-contacts {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+
+    .rsvp-contact {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 240px;
+
+      .rsvp-contact-name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .rsvp-contact-number {
+        font-size: 18px;
+        color: #555;
+        cursor: pointer;
+      }
+
+      .rsvp-contact-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .rsvp-icon-btn {
+        background: none;
+        border: none;
+        color: $color-primary;
+        font-size: 1.3em;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 0;
+        transition: color 0.2s;
+
+        &:hover {
+          color: $color-accent;
+        }
+      }
+    }
+  }
 }

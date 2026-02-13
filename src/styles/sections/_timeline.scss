@@ -9,19 +9,14 @@
 
   .timeline {
     display: flex;
-    align-items: flex-start;
+    // align-items: flex-start;
+    align-items: stretch;
     position: relative;
-    padding: 0 2em;
+    padding: 2em 0;
 
-    // horizontal line through the dots
-    &::before {
-      content: "";
-      position: absolute;
-      top: 3.4em; // aligns with center of dots (time height + gap + dot radius)
-      left: 0;
-      right: 0;
-      height: 2px;
-      background-color: $color-primary;
+    @media only screen and (max-width: 1000px) {
+      flex-direction: column;
+      align-items: center;
     }
   }
 
@@ -32,35 +27,58 @@
     position: relative;
     min-width: 7em;
     padding: 0 1.5em;
+    position: relative;
+    height: 100%;
+    letter-spacing: 0;
+
+    &:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      height: 2px;
+      width: 100%;
+      z-index: -1;
+
+      background-color: $color-primary-var2;
+    }
   }
 
   .timeline__time {
-    font-size: 1.5625em; // 25px
+    font-size: 25px;
     color: $color-primary;
     margin-bottom: 0.4em;
   }
 
   .timeline__dot {
+    position: relative;
     width: 14px;
     height: 14px;
     border-radius: 50%;
     background-color: $color-primary;
-    position: relative;
     z-index: 1;
     flex-shrink: 0;
   }
 
   .timeline__icon {
-    width: 2.5em;
-    height: 2.5em;
-    margin-top: 0.8em;
+    width: 120px;
+    height: 80px;
+    margin-top: 1em;
   }
 
   .timeline__title {
-    font-size: 1.0625em; // 17px
-    color: $color-secondary;
-    margin-top: 0.3em;
+    font-size: 17px;
+    line-height: 1.29em;
+    color: $color-primary-var2;
+    margin-top: 2em;
     text-align: center;
     white-space: nowrap;
+  }
+
+  .timeline-locations {
+    display: flex;
+    align-items: center;
+    margin-top: 2em;
+    gap: 3em;
   }
 }
