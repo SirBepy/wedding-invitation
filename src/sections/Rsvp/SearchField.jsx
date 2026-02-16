@@ -76,7 +76,7 @@ export default function SearchField({ guests, onSelect, placeholder = 'Search yo
           {results.length > 0 ? (
             results.map((guest, i) => (
               <li
-                key={guest.id}
+                key={guest.rowNumber}
                 className={`search-field__item font-text ${i === selectedIndex ? 'search-field__item--selected' : ''}`}
                 onMouseDown={() => handleSelect(guest)}
                 onMouseEnter={() => setSelectedIndex(i)}

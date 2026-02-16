@@ -5,7 +5,7 @@ export default function PersonRow({ person, onStatusChange, onDelete, showWarnin
   const toggleValue = person.status === 'Coming' ? true : person.status === 'Not Coming' ? false : null
 
   const handleToggle = (val) => {
-    onStatusChange(person.id, val ? 'Coming' : 'Not Coming')
+    onStatusChange(person.rowNumber, val ? 'Coming' : 'Not Coming')
   }
 
   return (
@@ -21,7 +21,7 @@ export default function PersonRow({ person, onStatusChange, onDelete, showWarnin
         </div>
         <button
           className="person-row__delete font-text"
-          onClick={() => onDelete(person.id)}
+          onClick={() => onDelete(person.rowNumber)}
           aria-label={`Remove ${person.name}`}
         >
           &times;

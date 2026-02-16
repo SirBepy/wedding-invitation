@@ -2,7 +2,9 @@
  * Wedding RSVP - Google Apps Script Backend
  *
  * Setup:
- * 1. Create a Google Sheet with columns: id | name | groupId | status | respondedAt
+ * 1. Create a Google Sheet with required columns: name | groupId | status | respondedAt
+ *    - Columns can be in ANY order
+ *    - You can add additional columns (e.g., phone, email) - they won't be touched
  * 2. Open Extensions > Apps Script
  * 3. Paste this code into Code.gs
  * 4. Deploy > New deployment > Web app > Execute as: Me, Access: Anyone
@@ -12,8 +14,8 @@
  * Set NOTIFICATION_EMAIL below to receive emails when guests RSVP.
  */
 
-const SHEET_NAME = 'Guests';
-const NOTIFICATION_EMAIL = ''; // e.g. 'you@example.com'
+const SHEET_NAME = "RSVP Status";
+const NOTIFICATION_EMAIL = "josipmuzic99@gmail.com"; // e.g. 'you@example.com'
 
 function doPost(e) {
   try {
@@ -23,14 +25,14 @@ function doPost(e) {
     let result;
 
     switch (action) {
-      case 'getGuests':
+      case "getGuests":
         result = getGuests(payload.groupId);
         break;
-      case 'submitRsvp':
+      case "submitRsvp":
         result = submitRsvp(payload.people);
         break;
       default:
-        return jsonResponse({ error: 'Unknown action' }, 400);
+        return jsonResponse({ error: "Unknown action" }, 400);
     }
 
     return jsonResponse(result);
@@ -40,22 +42,27 @@ function doPost(e) {
 }
 
 function getGuests(groupId) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const sheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
 
   const colIndex = {};
-  headers.forEach((h, i) => { colIndex[h] = i; });
+  headers.forEach((h, i) => {
+    colIndex[h] = i;
+  });
 
   const guests = [];
   for (let i = 1; i < data.length; i++) {
     const row = data[i];
     const guest = {
-      id: String(row[colIndex['id']]),
-      name: row[colIndex['name']],
-      groupId: String(row[colIndex['groupId']]),
-      status: row[colIndex['status']] || '',
-      respondedAt: row[colIndex['respondedAt']] ? formatDate(row[colIndex['respondedAt']]) : '',
+      rowNumber: i + 1,
+      name: row[colIndex["name"]],
+      groupId: String(row[colIndex["groupId"]]),
+      status: row[colIndex["status"]] || "",
+      respondedAt: row[colIndex["respondedAt"]]
+        ? formatDate(row[colIndex["respondedAt"]])
+        : "",
     };
 
     if (!groupId || guest.groupId === groupId) {
@@ -67,24 +74,28 @@ function getGuests(groupId) {
 }
 
 function submitRsvp(people) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const sheet =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
 
   const colIndex = {};
-  headers.forEach((h, i) => { colIndex[h] = i; });
+  headers.forEach((h, i) => {
+    colIndex[h] = i;
+  });
 
   const now = new Date();
   const updates = [];
 
   people.forEach((person) => {
-    for (let i = 1; i < data.length; i++) {
-      if (String(data[i][colIndex['id']]) === String(person.id)) {
-        sheet.getRange(i + 1, colIndex['status'] + 1).setValue(person.status);
-        sheet.getRange(i + 1, colIndex['respondedAt'] + 1).setValue(now);
-        updates.push(person);
-        break;
-      }
+    // person.rowNumber is the actual sheet row (1-based)
+    // data array index is rowNumber - 1
+    const dataIndex = person.rowNumber - 1;
+
+    if (dataIndex >= 1 && dataIndex < data.length) {
+      sheet.getRange(person.rowNumber, colIndex["status"] + 1).setValue(person.status);
+      sheet.getRange(person.rowNumber, colIndex["respondedAt"] + 1).setValue(now);
+      updates.push(person);
     }
   });
 
@@ -97,19 +108,19 @@ function submitRsvp(people) {
 
 function sendNotification(people) {
   const lines = people.map((p) => `${p.name}: ${p.status}`);
-  const subject = `Wedding RSVP: ${people.map((p) => p.name).join(', ')}`;
-  const body = `New RSVP submission:\n\n${lines.join('\n')}\n\nSubmitted at: ${new Date().toLocaleString()}`;
+  const subject = `Wedding RSVP: ${people.map((p) => p.name).join(", ")}`;
+  const body = `New RSVP submission:\n\n${lines.join("\n")}\n\nSubmitted at: ${new Date().toLocaleString()}`;
 
   MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
 }
 
 function formatDate(date) {
   if (!(date instanceof Date)) return String(date);
-  return Utilities.formatDate(date, Session.getScriptTimeZone(), 'MMM d, yyyy');
+  return Utilities.formatDate(date, Session.getScriptTimeZone(), "MMM d, yyyy");
 }
 
 function jsonResponse(data, statusCode) {
-  return ContentService
-    .createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(
+    ContentService.MimeType.JSON,
+  );
 }

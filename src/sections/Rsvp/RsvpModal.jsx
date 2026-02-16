@@ -26,7 +26,7 @@ function reducer(state, action) {
     case 'SET_FORM': {
       const originals = {}
       action.people.forEach((p) => {
-        originals[p.id] = p.status || ''
+        originals[p.rowNumber] = p.status || ''
       })
       return {
         ...state,
@@ -42,12 +42,12 @@ function reducer(state, action) {
       return {
         ...state,
         selectedPeople: state.selectedPeople.map((p) =>
-          p.id === action.id ? { ...p, status: action.status } : p
+          p.rowNumber === action.rowNumber ? { ...p, status: action.status } : p
         ),
       }
 
     case 'DELETE_PERSON': {
-      const updated = state.selectedPeople.filter((p) => p.id !== action.id)
+      const updated = state.selectedPeople.filter((p) => p.rowNumber !== action.rowNumber)
       if (updated.length === 0) {
         return { ...state, selectedPeople: [], mode: 'search', groupGuests: [], originalStatuses: {} }
       }
@@ -56,7 +56,7 @@ function reducer(state, action) {
 
     case 'ADD_PERSON': {
       const originals = { ...state.originalStatuses }
-      originals[action.person.id] = action.person.status || ''
+      originals[action.person.rowNumber] = action.person.status || ''
       return {
         ...state,
         selectedPeople: [...state.selectedPeople, { ...action.person }],
@@ -123,18 +123,18 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
     })
   }
 
-  const handleStatusChange = (id, status) => {
-    dispatch({ type: 'UPDATE_STATUS', id, status })
+  const handleStatusChange = (rowNumber, status) => {
+    dispatch({ type: 'UPDATE_STATUS', rowNumber, status })
   }
 
-  const handleDelete = (id) => {
-    dispatch({ type: 'DELETE_PERSON', id })
+  const handleDelete = (rowNumber) => {
+    dispatch({ type: 'DELETE_PERSON', rowNumber })
   }
 
   const handleAddPerson = (e) => {
-    const id = e.target.value
-    if (!id) return
-    const person = state.groupGuests.find((g) => g.id === id)
+    const rowNumber = e.target.value
+    if (!rowNumber) return
+    const person = state.groupGuests.find((g) => String(g.rowNumber) === rowNumber)
     if (person) dispatch({ type: 'ADD_PERSON', person })
     e.target.value = ''
   }
@@ -144,7 +144,7 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
 
     const people = state.selectedPeople
       .filter((p) => p.status)
-      .map((p) => ({ id: p.id, name: p.name, status: p.status }))
+      .map((p) => ({ rowNumber: p.rowNumber, name: p.name, status: p.status }))
 
     const result = await api.execute('submitRsvp', { people })
 
@@ -158,13 +158,13 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
   }
 
   const remainingMembers = state.groupGuests.filter(
-    (g) => !state.selectedPeople.some((p) => p.id === g.id)
+    (g) => !state.selectedPeople.some((p) => p.rowNumber === g.rowNumber)
   )
 
   const hasValidSelection = state.selectedPeople.some((p) => p.status)
 
   const getWarning = (person) => {
-    const original = state.originalStatuses[person.id]
+    const original = state.originalStatuses[person.rowNumber]
     if (!original || !person.status) return null
     if (person.status !== original) {
       return `Previously responded "${original}" — this will update their response.`
@@ -206,7 +206,7 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
                 const warning = getWarning(person)
                 return (
                   <PersonRow
-                    key={person.id}
+                    key={person.rowNumber}
                     person={person}
                     onStatusChange={handleStatusChange}
                     onDelete={handleDelete}
@@ -226,7 +226,7 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
                 >
                   <option value="" disabled>+ Add family member</option>
                   {remainingMembers.map((g) => (
-                    <option key={g.id} value={g.id}>
+                    <option key={g.rowNumber} value={g.rowNumber}>
                       {g.name}{g.respondedAt ? ` (already responded)` : ''}
                     </option>
                   ))}
