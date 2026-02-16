@@ -1,0 +1,61 @@
+@use '../../styles/variables' as *;
+
+.person-row {
+  padding: 1em 0;
+  border-bottom: 1px solid rgba($color-primary-var3, 0.3);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.6em;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+  }
+
+  &__name {
+    font-size: 1.1em;
+    color: $color-primary;
+    letter-spacing: 0.1em;
+  }
+
+  &__timestamp {
+    font-size: 0.75em;
+    color: $color-primary-var3;
+    letter-spacing: 0.05em;
+  }
+
+  &__delete {
+    background: none;
+    border: none;
+    font-size: 1.4em;
+    color: $color-primary-var3;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+    flex-shrink: 0;
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+
+  &__warning {
+    margin-top: 0.5em;
+    font-size: 0.8em;
+    color: #b8860b;
+    letter-spacing: 0.05em;
+  }
+}
