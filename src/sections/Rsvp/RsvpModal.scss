@@ -21,6 +21,23 @@
     color: $color-accent;
   }
 
+  &__retry {
+    margin-top: 0.8em;
+    padding: 0.5em 1.5em;
+    font-size: 0.9em;
+    letter-spacing: 0.1em;
+    background-color: $color-primary;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $color-primary-var2;
+    }
+  }
+
   &__search {
     p {
       text-align: center;

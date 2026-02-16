@@ -59,7 +59,7 @@ function reducer(state, action) {
       originals[action.person.id] = action.person.status || ''
       return {
         ...state,
-        selectedPeople: [...state.selectedPeople, { ...action.person, status: '' }],
+        selectedPeople: [...state.selectedPeople, { ...action.person }],
         originalStatuses: originals,
       }
     }
@@ -186,6 +186,9 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
         {api.error && state.mode !== 'form' && (
           <div className="rsvp-modal__error">
             <p className="font-text">Failed to load guest list. Please try again later.</p>
+            <button className="rsvp-modal__retry font-text" onClick={loadData}>
+              Retry
+            </button>
           </div>
         )}
 

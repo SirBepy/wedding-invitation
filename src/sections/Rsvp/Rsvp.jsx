@@ -1,5 +1,8 @@
 import { useState, useCallback, useRef } from 'react'
 import Button from '../../components/Button/Button'
+import Toast from '../../components/Toast/Toast'
+import RsvpModal from './RsvpModal'
+import useUrlParams from '../../hooks/useUrlParams'
 import './Rsvp.scss'
 
 const contacts = [
@@ -9,7 +12,10 @@ const contacts = [
 
 export default function Rsvp() {
   const [copiedIndex, setCopiedIndex] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [toast, setToast] = useState(null)
   const timeoutRef = useRef(null)
+  const { groupId } = useUrlParams()
 
   const handleCopy = useCallback((number, index) => {
     navigator.clipboard.writeText(number).then(() => {
@@ -24,7 +30,7 @@ export default function Rsvp() {
       <div className="landing-content">
         <h1>RSVP</h1>
         <p className="font-text by-date-text">BY AUGUST 29TH</p>
-        <Button text="RSVP HERE" classes="rsvp-button font-text" />
+        <Button text="RSVP HERE" classes="rsvp-button font-text" onClick={() => setModalOpen(true)} />
         <p className="font-text or-via-text">Or via WhatsApp</p>
         <div className="rsvp-contacts">
           {contacts.map((c, i) => (
@@ -57,6 +63,19 @@ export default function Rsvp() {
           ))}
         </div>
       </div>
+      <RsvpModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSuccess={() => setToast({ message: 'RSVP submitted successfully!', type: 'success' })}
+        groupId={groupId}
+      />
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onDismiss={() => setToast(null)}
+        />
+      )}
     </section>
   )
 }
