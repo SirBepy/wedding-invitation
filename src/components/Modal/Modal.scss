@@ -1,0 +1,78 @@
+@use '../../styles/variables' as *;
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: modal-fade-in 0.3s ease;
+  padding: 1em;
+}
+
+.modal {
+  position: relative;
+  background-color: $color-bg;
+  border-radius: 8px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modal-slide-in 0.3s ease;
+  border: 1px solid $color-primary-var3;
+
+  &__close {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: $color-primary;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+
+  &__content {
+    padding: 2em;
+    font-family: serif;
+    letter-spacing: 0.279em;
+    color: $color-primary;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    max-width: 100%;
+    margin: 0 0.5em;
+  }
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
