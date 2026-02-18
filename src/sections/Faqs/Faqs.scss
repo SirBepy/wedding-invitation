@@ -21,20 +21,24 @@
   .faqs-categories {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 1em;
     min-width: 10em;
+    transition: all 0.2s;
   }
 
   .faqs-categories__item {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.1em;
+    font-size: 1.5em;
     color: $color-primary;
     opacity: 0.4;
     text-align: right;
     padding: 0.4em 0;
     transition: opacity 0.3s;
+    font-weight: 900;
+    letter-spacing: 0.15em;
 
     &:hover {
       opacity: 0.7;
@@ -84,16 +88,20 @@
   }
 
   .faqs-questions__question {
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: $color-primary;
     opacity: 1;
     transition: opacity 0.3s;
+    letter-spacing: 0.15em;
+    font-weight: 600;
   }
 
   .faqs-questions__answer {
-    font-size: 0.9em;
+    font-size: 1.1em;
     color: $color-primary-var2;
+    // font:
     margin-top: 0.4em;
-    padding-left: 0.5em;
+    letter-spacing: 0;
+    font-family: "Noto Serif", serif;
   }
 }

@@ -7,15 +7,15 @@ const faqCategories = [
     questions: [
       {
         q: "What is the dress code?",
-        a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        a: "Formal, black-tie optional",
       },
       {
         q: "Can I bring a plus one?",
-        a: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        a: "Please check with us on whatsapp before you RSVP to confirm if you can bring a plus one.",
       },
       {
         q: "Will there be parking available?",
-        a: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        a: "Please check with us on whatsapp before you RSVP to confirm if you can bring a plus one.",
       },
     ],
   },
