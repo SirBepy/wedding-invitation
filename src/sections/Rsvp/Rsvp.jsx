@@ -1,8 +1,9 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Button from "../../components/Button/Button";
 import Toast from "../../components/Toast/Toast";
 import RsvpModal from "./RsvpModal";
 import useUrlParams from "../../hooks/useUrlParams";
+import { prefetchGuests } from "../../utils/guestCache";
 import "./Rsvp.scss";
 
 const contacts = [
@@ -11,6 +12,8 @@ const contacts = [
 ];
 
 export default function Rsvp() {
+  useEffect(() => { prefetchGuests(); }, []);
+
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [toast, setToast] = useState(null);

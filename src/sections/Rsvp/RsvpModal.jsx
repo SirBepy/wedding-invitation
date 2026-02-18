@@ -3,6 +3,11 @@ import Modal from "../../components/Modal/Modal";
 import useApi from "../../hooks/useApi";
 import SearchField from "./SearchField";
 import PersonRow from "./PersonRow";
+import {
+  getGuestCache,
+  getGroupFromCache,
+  updateGuestCache,
+} from "../../utils/guestCache";
 import "./RsvpModal.scss";
 
 const initialState = {
@@ -100,16 +105,30 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
   const api = useApi();
 
   const loadData = useCallback(async () => {
-    dispatch({ type: "SET_LOADING" });
-
     if (groupId) {
+      const groupGuests = getGroupFromCache(groupId);
+      if (groupGuests !== null) {
+        if (groupGuests.length === 0) {
+          dispatch({ type: "SET_SEARCH", guests: getGuestCache() || [] });
+        } else {
+          const nonResponded = groupGuests.filter((g) => !g.respondedAt);
+          dispatch({
+            type: "SET_FORM",
+            groupGuests,
+            people: nonResponded.length > 0 ? nonResponded : groupGuests,
+          });
+        }
+        return;
+      }
+
+      // Cache miss — fall back to API
+      dispatch({ type: "SET_LOADING" });
       const result = await api.execute("getGuests", { groupId });
       if (!result || !result.guests || result.guests.length === 0) {
         const allResult = await api.execute("getGuests");
         dispatch({ type: "SET_SEARCH", guests: allResult?.guests || [] });
         return;
       }
-
       const nonResponded = result.guests.filter((g) => !g.respondedAt);
       dispatch({
         type: "SET_FORM",
@@ -117,6 +136,14 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
         people: nonResponded.length > 0 ? nonResponded : result.guests,
       });
     } else {
+      const allGuests = getGuestCache();
+      if (allGuests !== null) {
+        dispatch({ type: "SET_SEARCH", guests: allGuests });
+        return;
+      }
+
+      // Cache miss — fall back to API
+      dispatch({ type: "SET_LOADING" });
       const result = await api.execute("getGuests");
       dispatch({ type: "SET_SEARCH", guests: result?.guests || [] });
     }
@@ -128,10 +155,21 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
   }, [isOpen]);
 
   const handleGuestSelect = async (guest) => {
+    const groupGuests = getGroupFromCache(guest.groupId);
+    if (groupGuests !== null) {
+      const nonResponded = groupGuests.filter((g) => !g.respondedAt);
+      dispatch({
+        type: "SET_FORM",
+        groupGuests,
+        people: nonResponded.length > 0 ? nonResponded : groupGuests,
+      });
+      return;
+    }
+
+    // Cache miss — fall back to API
     dispatch({ type: "SET_LOADING" });
     const result = await api.execute("getGuests", { groupId: guest.groupId });
     if (!result?.guests) return;
-
     const nonResponded = result.guests.filter((g) => !g.respondedAt);
     dispatch({
       type: "SET_FORM",
@@ -175,6 +213,7 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
       return;
     }
 
+    updateGuestCache(people);
     onSuccess?.();
     onClose();
   };
