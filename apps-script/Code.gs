@@ -11,11 +11,11 @@
  * 5. Copy the deployment URL into your .env as VITE_APPS_SCRIPT_URL
  *
  * Email notifications:
- * Set NOTIFICATION_EMAIL below to receive emails when guests RSVP.
+ * Set NOTIFICATION_EMAILS below to receive emails when guests RSVP.
  */
 
 const SHEET_NAME = "RSVP Status";
-const NOTIFICATION_EMAIL = "josipmuzic99@gmail.com"; // e.g. 'you@example.com'
+const NOTIFICATION_EMAILS = ["josipmuzic99@gmail.com", "storm.theobald@gmail.com];
 
 function doPost(e) {
   try {
@@ -103,7 +103,7 @@ function submitRsvp(people) {
     }
   });
 
-  if (NOTIFICATION_EMAIL && updates.length > 0) {
+  if (NOTIFICATION_EMAILS && updates.length > 0) {
     sendNotification(updates);
   }
 
@@ -115,7 +115,9 @@ function sendNotification(people) {
   const subject = `Wedding RSVP: ${people.map((p) => p.name).join(", ")}`;
   const body = `New RSVP submission:\n\n${lines.join("\n")}\n\nSubmitted at: ${new Date().toLocaleString()}`;
 
-  MailApp.sendEmail(NOTIFICATION_EMAIL, subject, body);
+  NOTIFICATION_EMAILS.forEach((a) => {console.log(a)})
+
+  MailApp.sendEmail(NOTIFICATION_EMAILS, subject, body);
 }
 
 function formatDate(date) {
