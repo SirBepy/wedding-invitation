@@ -49,7 +49,7 @@ function getGuests(groupId) {
 
   const colIndex = {};
   headers.forEach((h, i) => {
-    colIndex[h] = i;
+    colIndex[h.replaceAll(" ", "").toLowerCase()] = i;
   });
 
   const guests = [];
@@ -58,10 +58,10 @@ function getGuests(groupId) {
     const guest = {
       rowNumber: i + 1,
       name: row[colIndex["name"]],
-      groupId: String(row[colIndex["groupId"]]),
+      groupId: String(row[colIndex["groupid"]]),
       status: row[colIndex["status"]] || "",
-      respondedAt: row[colIndex["respondedAt"]]
-        ? formatDate(row[colIndex["respondedAt"]])
+      respondedAt: row[colIndex["respondedat"]]
+        ? formatDate(row[colIndex["respondedat"]])
         : "",
     };
 
@@ -93,8 +93,12 @@ function submitRsvp(people) {
     const dataIndex = person.rowNumber - 1;
 
     if (dataIndex >= 1 && dataIndex < data.length) {
-      sheet.getRange(person.rowNumber, colIndex["status"] + 1).setValue(person.status);
-      sheet.getRange(person.rowNumber, colIndex["respondedAt"] + 1).setValue(now);
+      sheet
+        .getRange(person.rowNumber, colIndex["status"] + 1)
+        .setValue(person.status);
+      sheet
+        .getRange(person.rowNumber, colIndex["respondedat"] + 1)
+        .setValue(now);
       updates.push(person);
     }
   });
