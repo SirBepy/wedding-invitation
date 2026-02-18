@@ -1,10 +1,10 @@
-import './Toggle.scss'
+import "./Toggle.scss";
 
 export default function Toggle({ value, onChange, disabled = false }) {
   return (
     <div className="toggle" role="group" aria-label="RSVP attendance">
       <button
-        className={`toggle__btn font-text ${value === true ? 'toggle__btn--active' : ''}`}
+        className={`toggle__btn font-text ${value === true ? "toggle__btn--active" : ""}`}
         onClick={() => onChange?.(true)}
         disabled={disabled}
         role="button"
@@ -13,7 +13,7 @@ export default function Toggle({ value, onChange, disabled = false }) {
         Coming
       </button>
       <button
-        className={`toggle__btn font-text ${value === false ? 'toggle__btn--active' : ''}`}
+        className={`toggle__btn font-text ${value === false ? "toggle__btn--active" : ""}`}
         onClick={() => onChange?.(false)}
         disabled={disabled}
         role="button"
@@ -22,5 +22,5 @@ export default function Toggle({ value, onChange, disabled = false }) {
         Not Coming
       </button>
     </div>
-  )
+  );
 }

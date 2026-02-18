@@ -1,12 +1,23 @@
-import Toggle from '../../components/Toggle/Toggle'
-import './PersonRow.scss'
+import Toggle from "../../components/Toggle/Toggle";
+import "./PersonRow.scss";
 
-export default function PersonRow({ person, onStatusChange, onDelete, showWarning, warningMessage }) {
-  const toggleValue = person.status === 'Coming' ? true : person.status === 'Not Coming' ? false : null
+export default function PersonRow({
+  person,
+  onStatusChange,
+  onDelete,
+  showWarning,
+  warningMessage,
+}) {
+  const toggleValue =
+    person.status === "Coming"
+      ? true
+      : person.status === "Not Coming"
+        ? false
+        : null;
 
   const handleToggle = (val) => {
-    onStatusChange(person.rowNumber, val ? 'Coming' : 'Not Coming')
-  }
+    onStatusChange(person.rowNumber, val ? "Coming" : "Not Coming");
+  };
 
   return (
     <div className="person-row">
@@ -32,5 +43,5 @@ export default function PersonRow({ person, onStatusChange, onDelete, showWarnin
         <p className="person-row__warning font-text">{warningMessage}</p>
       )}
     </div>
-  )
+  );
 }

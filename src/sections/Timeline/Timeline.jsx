@@ -1,20 +1,23 @@
-import LocationButton from '../../components/LocationButton/LocationButton'
-import './Timeline.scss'
+import LocationButton from "../../components/LocationButton/LocationButton";
+import "./Timeline.scss";
 
 const timelineItems = [
-  { time: '14:00', icon: '/icons/sign.svg', title: 'Welcome<br/>Party' },
-  { time: '16:30', icon: '/icons/church.svg', title: 'Church<br/>Ceremony' },
-  { time: '18:00', icon: '/icons/drinks.svg', title: 'Cocktail<br/>Hour' },
-  { time: '19:00', icon: '/icons/plate.svg', title: 'First Course' },
-  { time: '19:30', icon: '/icons/disco.svg', title: 'Party' },
-  { time: '23:00', icon: '/icons/cake.svg', title: 'Deserts &<br/>Cake' },
-  { time: '3:00', icon: '/icons/car.svg', title: 'The End' },
-]
+  { time: "14:00", icon: "/icons/sign.svg", title: "Welcome<br/>Party" },
+  { time: "16:30", icon: "/icons/church.svg", title: "Church<br/>Ceremony" },
+  { time: "18:00", icon: "/icons/drinks.svg", title: "Cocktail<br/>Hour" },
+  { time: "19:00", icon: "/icons/plate.svg", title: "First Course" },
+  { time: "19:30", icon: "/icons/disco.svg", title: "Party" },
+  { time: "23:00", icon: "/icons/cake.svg", title: "Deserts &<br/>Cake" },
+  { time: "3:00", icon: "/icons/car.svg", title: "The End" },
+];
 
 const locations = [
-  { title: 'All Other Events', link: 'https://maps.app.goo.gl/Niw21p7dzi6Ryziq9' },
-  { title: 'Church', link: 'https://maps.app.goo.gl/srK3JGs34MgFSgfi9' },
-]
+  {
+    title: "All Other Events",
+    link: "https://maps.app.goo.gl/Niw21p7dzi6Ryziq9",
+  },
+  { title: "Church", link: "https://maps.app.goo.gl/srK3JGs34MgFSgfi9" },
+];
 
 export default function Timeline() {
   return (
@@ -25,11 +28,15 @@ export default function Timeline() {
         <div className="timeline">
           {timelineItems.map((item) => (
             <div key={item.time} className="timeline__item">
-              <span className="timeline__time font-decorative1">{item.time}</span>
+              <span className="timeline__time font-decorative1">
+                {item.time}
+              </span>
               <div className="timeline__dot"></div>
               <img className="timeline__icon" src={item.icon} alt="" />
-              <span className="timeline__title font-decorative2"
-                    dangerouslySetInnerHTML={{ __html: item.title }} />
+              <span
+                className="timeline__title font-decorative2"
+                dangerouslySetInnerHTML={{ __html: item.title }}
+              />
             </div>
           ))}
         </div>
@@ -46,5 +53,5 @@ export default function Timeline() {
         </div>
       </div>
     </section>
-  )
+  );
 }

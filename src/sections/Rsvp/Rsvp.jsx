@@ -1,36 +1,40 @@
-import { useState, useCallback, useRef } from 'react'
-import Button from '../../components/Button/Button'
-import Toast from '../../components/Toast/Toast'
-import RsvpModal from './RsvpModal'
-import useUrlParams from '../../hooks/useUrlParams'
-import './Rsvp.scss'
+import { useState, useCallback, useRef } from "react";
+import Button from "../../components/Button/Button";
+import Toast from "../../components/Toast/Toast";
+import RsvpModal from "./RsvpModal";
+import useUrlParams from "../../hooks/useUrlParams";
+import "./Rsvp.scss";
 
 const contacts = [
-  { name: 'Storm', number: '+385 99 886 7738' },
-  { name: 'Josip', number: '+385 95 384 8499' },
-]
+  { name: "Josip", number: "+385 95 384 8499" },
+  { name: "Storm", number: "+385 99 886 7738" },
+];
 
 export default function Rsvp() {
-  const [copiedIndex, setCopiedIndex] = useState(null)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [toast, setToast] = useState(null)
-  const timeoutRef = useRef(null)
-  const { groupId } = useUrlParams()
+  const [copiedIndex, setCopiedIndex] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [toast, setToast] = useState(null);
+  const timeoutRef = useRef(null);
+  const { groupId } = useUrlParams();
 
   const handleCopy = useCallback((number, index) => {
     navigator.clipboard.writeText(number).then(() => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-      setCopiedIndex(index)
-      timeoutRef.current = setTimeout(() => setCopiedIndex(null), 2000)
-    })
-  }, [])
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setCopiedIndex(index);
+      timeoutRef.current = setTimeout(() => setCopiedIndex(null), 2000);
+    });
+  }, []);
 
   return (
     <section id="rsvp" className="section">
       <div className="landing-content">
         <h1>RSVP</h1>
         <p className="font-text by-date-text">BY AUGUST 29TH</p>
-        <Button text="RSVP HERE" classes="rsvp-button font-text" onClick={() => setModalOpen(true)} />
+        <Button
+          text="RSVP HERE"
+          classes="rsvp-button font-text"
+          onClick={() => setModalOpen(true)}
+        />
         <p className="font-text or-via-text">Or via WhatsApp</p>
         <div className="rsvp-contacts">
           {contacts.map((c, i) => (
@@ -39,13 +43,13 @@ export default function Rsvp() {
               <span
                 className="rsvp-contact-number"
                 onClick={() => handleCopy(c.number, i)}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
-                {copiedIndex === i ? 'Number copied!' : c.number}
+                {copiedIndex === i ? "Number copied!" : c.number}
               </span>
               <div className="rsvp-contact-actions">
                 <a
-                  href={`https://wa.me/${c.number.replace(/\s/g, '')}`}
+                  href={`https://wa.me/${c.number.replace(/\s/g, "")}`}
                   className="rsvp-icon-btn"
                   title="WhatsApp"
                 >
@@ -66,7 +70,9 @@ export default function Rsvp() {
       <RsvpModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSuccess={() => setToast({ message: 'RSVP submitted successfully!', type: 'success' })}
+        onSuccess={() =>
+          setToast({ message: "RSVP submitted successfully!", type: "success" })
+        }
         groupId={groupId}
       />
       {toast && (
@@ -77,5 +83,5 @@ export default function Rsvp() {
         />
       )}
     </section>
-  )
+  );
 }

@@ -1,48 +1,48 @@
-import { useState, useEffect } from 'react'
-import Button from '../Button/Button'
-import './Navbar.scss'
+import { useState, useEffect } from "react";
+import Button from "../Button/Button";
+import "./Navbar.scss";
 
-const SECTIONS = ['landing', 'details', 'timeline', 'faqs', 'rsvp']
+const SECTIONS = ["landing", "details", "timeline", "faqs", "rsvp"];
 
 const NAV_LINKS = [
-  { id: 'details', label: 'Details' },
-  { id: 'timeline', label: 'Schedule' },
-  { id: 'faqs', label: 'FAQs' },
-]
+  { id: "details", label: "Details" },
+  { id: "timeline", label: "Schedule" },
+  { id: "faqs", label: "FAQs" },
+];
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState('landing')
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("landing");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
+            setActiveSection(entry.target.id);
           }
-        })
+        });
       },
-      { threshold: 0.4 }
-    )
+      { threshold: 0.4 },
+    );
 
     SECTIONS.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev)
-  const closeMenu = () => setMenuOpen(false)
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
       <nav className="navbar">
         <a
           href="#landing"
-          className={`navbar__logo font-decorative2 ${activeSection === 'landing' ? 'navbar__logo--active' : ''}`}
+          className={`navbar__logo font-decorative2 ${activeSection === "landing" ? "navbar__logo--active" : ""}`}
         >
           J & S
         </a>
@@ -51,7 +51,7 @@ export default function Navbar() {
             <a
               key={link.id}
               href={`#${link.id}`}
-              className={`navbar__link font-text ${activeSection === link.id ? 'navbar__link--active' : ''}`}
+              className={`navbar__link font-text ${activeSection === link.id ? "navbar__link--active" : ""}`}
             >
               {link.label}
             </a>
@@ -60,12 +60,12 @@ export default function Navbar() {
         <Button
           text="RSVP"
           href="#rsvp"
-          classes={`navbar__cta font-text ${activeSection === 'rsvp' ? 'navbar__cta--active' : ''}`}
+          classes={`navbar__cta font-text ${activeSection === "rsvp" ? "navbar__cta--active" : ""}`}
         />
       </nav>
 
       <button
-        className={`navbar-burger ${menuOpen ? 'navbar-burger--open' : ''}`}
+        className={`navbar-burger ${menuOpen ? "navbar-burger--open" : ""}`}
         aria-label="Toggle menu"
         onClick={toggleMenu}
       >
@@ -74,7 +74,7 @@ export default function Navbar() {
         <span></span>
       </button>
 
-      <div className={`navbar-menu ${menuOpen ? 'navbar-menu--open' : ''}`}>
+      <div className={`navbar-menu ${menuOpen ? "navbar-menu--open" : ""}`}>
         <div className="navbar-menu__content">
           <div className="navbar-menu__header">
             <p className="navbar-menu__names font-decorative3">Josip & Storm</p>
@@ -92,9 +92,13 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          <Button text="RSVP" href="#rsvp" classes="navbar-menu__cta font-text" />
+          <Button
+            text="RSVP"
+            href="#rsvp"
+            classes="navbar-menu__cta font-text"
+          />
         </div>
       </div>
     </>
-  )
+  );
 }

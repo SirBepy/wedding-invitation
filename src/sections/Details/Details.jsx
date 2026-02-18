@@ -1,12 +1,12 @@
-import './Details.scss'
+import "./Details.scss";
 
 const items = [
-  ['Dress Code', 'Formal / Black-tie Optional'],
-  ['Location', 'Outdoor'],
-  ['Parking', 'Parking available at Hotel Storia'],
-  ['Transportation', 'Shuttle Bus offered to church if preferred'],
-  ['Nearest Airports', 'Mostar or Split'],
-]
+  ["Dress Code", "Formal / Black-tie Optional"],
+  ["Location", "Outdoor"],
+  ["Parking", "Parking available at Hotel Storia"],
+  ["Transportation", "Shuttle Bus offered to church if preferred"],
+  ["Nearest Airports", "Mostar or Split"],
+];
 
 export default function Details() {
   return (
@@ -23,5 +23,5 @@ export default function Details() {
         </ul>
       </div>
     </section>
-  )
+  );
 }
