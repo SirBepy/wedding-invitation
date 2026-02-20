@@ -12,7 +12,9 @@ const contacts = [
 ];
 
 export default function Rsvp() {
-  useEffect(() => { prefetchGuests(); }, []);
+  useEffect(() => {
+    prefetchGuests();
+  }, []);
 
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,7 +32,7 @@ export default function Rsvp() {
 
   return (
     <section id="rsvp" className="section">
-      <div className="landing-content">
+      <div className="rsvp-content">
         <h1>RSVP</h1>
         <p className="font-text by-date-text">BY AUGUST 29TH</p>
         <Button
