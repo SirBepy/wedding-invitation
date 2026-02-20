@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 // ======================== SHARED LAYERS ========================
 
@@ -16,16 +16,7 @@
   overflow: hidden;
 }
 
-// Tint overlay — sits above falling flowers, below corner flowers
-.bg-tint {
-  position: absolute;
-  inset: 0;
-}
-
 // ======================== CORNER FLOWERS ========================
-
-// .bg-corners is a separate fixed container rendered after .bg in the DOM,
-// so it naturally stacks above .bg (and above the tint) at the same z-index level.
 
 .bg-corner {
   position: absolute;

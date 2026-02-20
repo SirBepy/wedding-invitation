@@ -20,13 +20,10 @@ const FALLING = {
   flickerDuration: 3.5, // seconds per full flicker cycle (lower = faster)
   minDuration: 12, // seconds, minimum fall cycle
   maxDuration: 22, // seconds, maximum fall cycle
-  minSize: 50, // px
-  maxSize: 105, // px
-  opacity: 0.45, // max opacity (each flower gets a random fraction of this)
+  minSize: 20, // px
+  maxSize: 65, // px
+  opacity: 0.15, // max opacity (each flower gets a random fraction of this)
 };
-
-// Tint that sits above the falling flowers but below the corner flowers
-const TINT = "rgba(247, 241, 255, 0.75)";
 
 // Corner flowers — edit position/size/opacity freely
 // style accepts any CSS property in camelCase (bottom, left, right, width, transform, opacity…)
@@ -166,7 +163,6 @@ export default function Background() {
 
   return (
     <>
-      {/* Layer 1: falling flowers + tint (overflow:hidden clips flowers at viewport edges) */}
       <div className="bg">
         {flowers.map((f) => (
           // All CSS custom properties set on the outermost div and inherited by all children
@@ -200,12 +196,8 @@ export default function Background() {
             </div>
           </div>
         ))}
-
-        {/* Tint sits above falling flowers */}
-        <div className="bg-tint" style={{ background: TINT }} />
       </div>
 
-      {/* Layer 2: corner flowers — separate container so they sit above the tint */}
       <div className="bg-corners">
         <div className="bg-corner bg-corner--left">
           {CORNER_LEFT.map((flower, i) => (
