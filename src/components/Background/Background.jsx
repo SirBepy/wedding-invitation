@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Background.scss";
 
 // ======================== CONFIGURATION ========================
@@ -158,8 +158,20 @@ function generateFallingFlowers() {
 // ======================== COMPONENT ========================
 
 export default function Background() {
-  // useState initializer runs once on mount — flowers never regenerate on re-render
-  const [flowers] = useState(generateFallingFlowers);
+  const [flowers, setFlowers] = useState(generateFallingFlowers);
+
+  useEffect(() => {
+    let timer;
+    const onResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => setFlowers(generateFallingFlowers()), 200);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
 
   return (
     <>
