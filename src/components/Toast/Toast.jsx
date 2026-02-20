@@ -41,7 +41,7 @@ export default function Toast({
       className={`toast toast--${type} ${exiting ? "toast--exiting" : ""}`}
       role="alert"
     >
-      <span className="toast__message font-text">{message}</span>
+      <span className="toast__message font-text-2">{message}</span>
       <button
         className="toast__close font-text"
         onClick={handleClose}
