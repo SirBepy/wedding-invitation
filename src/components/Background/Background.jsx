@@ -13,16 +13,19 @@ const FALLING_IMAGES = [
 ];
 
 const FALLING = {
-  count: 20, // total elements in the pool
+  count: 40, // total elements in the pool
   angleDeg: 95, // general fall direction: 90=straight down, >90=rightward, <90=leftward
   angleVariance: 22, // each element deviates ±this many degrees from angleDeg
-  flickerAmount: 28, // px, amplitude of side-to-side flicker oscillation
-  flickerDuration: 3.5, // seconds per full flicker cycle (lower = faster)
+  wiggleAmount: 28, // px, amplitude of side-to-side wiggle oscillation
+  wiggleDuration: 3.5, // seconds per full wiggle cycle (lower = faster)
   minDuration: 12, // seconds, minimum fall cycle
   maxDuration: 22, // seconds, maximum fall cycle
   minSize: 20, // px
   maxSize: 65, // px
   opacity: 0.15, // max opacity (each flower gets a random fraction of this)
+  vanishChance: 0.55, // fraction of flowers that randomly vanish
+  vanishMinDuration: 15, // seconds, full vanish cycle length
+  vanishMaxDuration: 28, // seconds, full vanish cycle length
 };
 
 // Corner flowers — edit position/size/opacity freely
@@ -130,12 +133,25 @@ function generateFallingFlowers() {
     const delay = -Math.random() * duration;
 
     const startLeft = Math.random() * vw;
-    const flickerX = FALLING.flickerAmount * (0.5 + Math.random() * 0.5);
+    const wiggleX = FALLING.wiggleAmount * (0.5 + Math.random() * 0.5);
+    const wiggleDelay = +(Math.random() * FALLING.wiggleDuration).toFixed(2);
     const opacity = FALLING.opacity * (0.5 + Math.random() * 0.5);
 
     const rotFrom = Math.random() * 360;
     const rotDelta =
       (Math.random() > 0.5 ? 1 : -1) * (120 + Math.random() * 240);
+
+    const hasVanish = Math.random() < FALLING.vanishChance;
+    const vanishDuration = hasVanish
+      ? +(
+          FALLING.vanishMinDuration +
+          Math.random() *
+            (FALLING.vanishMaxDuration - FALLING.vanishMinDuration)
+        ).toFixed(2)
+      : null;
+    const vanishDelay = hasVanish
+      ? +(Math.random() * vanishDuration).toFixed(2)
+      : null;
 
     return {
       id,
@@ -145,12 +161,16 @@ function generateFallingFlowers() {
       fallToY: Math.round(vh + size + 20),
       driftX: Math.round(driftX),
       startLeft: Math.round(startLeft),
-      flickerX: Math.round(flickerX),
+      wiggleX: Math.round(wiggleX),
+      wiggleDelay,
       opacity: +opacity.toFixed(2),
       duration: +duration.toFixed(2),
       delay: +delay.toFixed(2),
       rotFrom: Math.round(rotFrom),
       rotTo: Math.round(rotFrom + rotDelta),
+      hasVanish,
+      vanishDuration,
+      vanishDelay,
     };
   });
 }
@@ -187,8 +207,8 @@ export default function Background() {
               "--fall-duration": `${f.duration}s`,
               "--fall-delay": `${f.delay}s`,
               "--drift-x": `${f.driftX}px`,
-              "--flicker-x": `${f.flickerX}px`,
-              "--flicker-duration": `${FALLING.flickerDuration}s`,
+              "--wiggle-x": `${f.wiggleX}px`,
+              "--wiggle-duration": `${FALLING.wiggleDuration}s`,
               "--rot-from": `${f.rotFrom}deg`,
               "--rot-to": `${f.rotTo}deg`,
               left: `${f.startLeft}px`,
@@ -196,14 +216,34 @@ export default function Background() {
           >
             {/* bg-fall-x handles directional drift (X movement matching fall direction) */}
             <div className="bg-fall-x">
-              {/* bg-fall-flicker handles the organic side-to-side oscillation */}
-              <div className="bg-fall-flicker">
-                <img
-                  src={f.src}
-                  className="bg-fall-img"
-                  alt=""
-                  style={{ width: `${f.size}px`, opacity: f.opacity }}
-                />
+              {/* bg-fall-wiggle handles the organic side-to-side oscillation */}
+              <div
+                className="bg-fall-wiggle"
+                style={{ "--wiggle-delay": `${f.wiggleDelay}s` }}
+              >
+                {f.hasVanish ? (
+                  <div
+                    className="bg-fall-vanish"
+                    style={{
+                      "--vanish-duration": `${f.vanishDuration}s`,
+                      "--vanish-delay": `${f.vanishDelay}s`,
+                    }}
+                  >
+                    <img
+                      src={f.src}
+                      className="bg-fall-img"
+                      alt=""
+                      style={{ width: `${f.size}px`, opacity: f.opacity }}
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={f.src}
+                    className="bg-fall-img"
+                    alt=""
+                    style={{ width: `${f.size}px`, opacity: f.opacity }}
+                  />
+                )}
               </div>
             </div>
           </div>

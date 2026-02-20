@@ -59,17 +59,17 @@
   }
 }
 
-// Organic flicker — side-to-side oscillation layered on top of the drift
-@keyframes fall-flicker {
+// Organic wiggle — side-to-side oscillation layered on top of the drift
+@keyframes fall-wiggle {
   0%,
   100% {
     transform: translateX(0);
   }
   25% {
-    transform: translateX(var(--flicker-x));
+    transform: translateX(var(--wiggle-x));
   }
   75% {
-    transform: translateX(calc(-1 * var(--flicker-x)));
+    transform: translateX(calc(-1 * var(--wiggle-x)));
   }
 }
 
@@ -100,9 +100,9 @@
   animation: fall-x var(--fall-duration) linear var(--fall-delay) infinite;
 }
 
-.bg-fall-flicker {
+.bg-fall-wiggle {
   will-change: transform;
-  animation: fall-flicker var(--flicker-duration) ease-in-out infinite;
+  animation: fall-wiggle var(--wiggle-duration) ease-in-out var(--wiggle-delay) infinite;
 }
 
 .bg-fall-img {
@@ -111,4 +111,21 @@
   -webkit-user-drag: none;
   will-change: transform;
   animation: fall-rotate var(--fall-duration) linear var(--fall-delay) infinite;
+}
+
+// Vanish — random opacity fade-out then fade-back-in cycle
+@keyframes vanish {
+  0%, 60% {
+    opacity: 1;
+  }
+  70%, 85% {
+    opacity: 0;
+  }
+  95%, 100% {
+    opacity: 1;
+  }
+}
+
+.bg-fall-vanish {
+  animation: vanish var(--vanish-duration) ease-in-out var(--vanish-delay) infinite;
 }
