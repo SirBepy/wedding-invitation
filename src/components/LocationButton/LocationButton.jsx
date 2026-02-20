@@ -9,7 +9,7 @@ export default function LocationButton({ texts, link, layout = "vertical" }) {
       className={`location-btn location-btn--${layout}`}
     >
       <img
-        src="/icons/location.svg"
+        src={`${import.meta.env.BASE_URL}icons/location.svg`}
         alt="Location"
         className="location-btn__icon"
       />

@@ -1,14 +1,16 @@
 import LocationButton from "../../components/LocationButton/LocationButton";
 import "./Timeline.scss";
 
+const BASE = import.meta.env.BASE_URL;
+
 const timelineItems = [
-  { time: "14:00", icon: "/icons/sign.svg", title: "Welcome<br/>Party" },
-  { time: "16:30", icon: "/icons/church.svg", title: "Church<br/>Ceremony" },
-  { time: "18:00", icon: "/icons/drinks.svg", title: "Cocktail<br/>Hour" },
-  { time: "19:00", icon: "/icons/plate.svg", title: "First Course" },
-  { time: "19:30", icon: "/icons/disco.svg", title: "Party" },
-  { time: "23:00", icon: "/icons/cake.svg", title: "Deserts &<br/>Cake" },
-  { time: "3:00", icon: "/icons/car.svg", title: "The End" },
+  { time: "14:00", icon: `${BASE}icons/sign.svg`, title: "Welcome<br/>Party" },
+  { time: "16:30", icon: `${BASE}icons/church.svg`, title: "Church<br/>Ceremony" },
+  { time: "18:00", icon: `${BASE}icons/drinks.svg`, title: "Cocktail<br/>Hour" },
+  { time: "19:00", icon: `${BASE}icons/plate.svg`, title: "First Course" },
+  { time: "19:30", icon: `${BASE}icons/disco.svg`, title: "Party" },
+  { time: "23:00", icon: `${BASE}icons/cake.svg`, title: "Deserts &<br/>Cake" },
+  { time: "3:00", icon: `${BASE}icons/car.svg`, title: "The End" },
 ];
 
 const locations = [

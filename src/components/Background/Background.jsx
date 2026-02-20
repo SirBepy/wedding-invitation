@@ -3,11 +3,13 @@ import "./Background.scss";
 
 // ======================== CONFIGURATION ========================
 
+const BASE = import.meta.env.BASE_URL;
+
 // Images picked randomly for the falling effect
 const FALLING_IMAGES = [
-  // "/icons/flowers/flower_1.webp",
-  // "/icons/flowers/flower_2.webp",
-  "/icons/flowers/flower_3.webp",
+  // `${BASE}icons/flowers/flower_1.webp`,
+  // `${BASE}icons/flowers/flower_2.webp`,
+  `${BASE}icons/flowers/flower_3.webp`,
 ];
 
 const FALLING = {
@@ -30,7 +32,7 @@ const TINT = "rgba(247, 241, 255, 0.75)";
 // style accepts any CSS property in camelCase (bottom, left, right, width, transform, opacity…)
 const CORNER_LEFT = [
   {
-    src: "/icons/flowers/leaves_2.svg",
+    src: `${BASE}icons/flowers/leaves_2.svg`,
     style: {
       bottom: "60px",
       left: "9px",
@@ -40,7 +42,7 @@ const CORNER_LEFT = [
     },
   },
   {
-    src: "/icons/flowers/flower_2.webp",
+    src: `${BASE}icons/flowers/flower_2.webp`,
     style: {
       bottom: "-30px",
       left: "-70px",
@@ -49,7 +51,7 @@ const CORNER_LEFT = [
     },
   },
   {
-    src: "/icons/flowers/flower_1.webp",
+    src: `${BASE}icons/flowers/flower_1.webp`,
     style: {
       bottom: "-95px",
       left: "140px",
@@ -62,7 +64,7 @@ const CORNER_LEFT = [
 
 const CORNER_RIGHT = [
   {
-    src: "/icons/flowers/leaves.webp",
+    src: `${BASE}icons/flowers/leaves.webp`,
     style: {
       bottom: "250px",
       right: "10px",
@@ -72,7 +74,7 @@ const CORNER_RIGHT = [
     },
   },
   {
-    src: "/icons/flowers/leaves_2.svg",
+    src: `${BASE}icons/flowers/leaves_2.svg`,
     style: {
       bottom: "-130px",
       right: "220px",
@@ -83,7 +85,7 @@ const CORNER_RIGHT = [
     },
   },
   {
-    src: "/icons/flowers/flower_3.webp",
+    src: `${BASE}icons/flowers/flower_3.webp`,
     style: {
       bottom: "-100px",
       right: "-40px",
@@ -94,7 +96,7 @@ const CORNER_RIGHT = [
     },
   },
   {
-    src: "/icons/flowers/flower_1.webp",
+    src: `${BASE}icons/flowers/flower_1.webp`,
     style: {
       bottom: "50px",
       right: "-100px",
