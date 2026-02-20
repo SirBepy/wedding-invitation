@@ -77,6 +77,12 @@ body {
   color: $color-primary;
 }
 
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: none;
+  }
+}
+
 body,
 p,
 a,
@@ -102,7 +108,7 @@ button {
 
 h1 {
   font-family: "Angella White", cursive;
-  font-size: 5em;
+  font-size: 5rem;
   color: $color-accent;
   font-weight: 400;
 }
