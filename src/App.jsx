@@ -1,3 +1,4 @@
+import Background from "./components/Background/Background";
 import Navbar from "./components/Navbar/Navbar";
 import Landing from "./sections/Landing/Landing";
 import Details from "./sections/Details/Details";
@@ -8,6 +9,7 @@ import Rsvp from "./sections/Rsvp/Rsvp";
 export default function App() {
   return (
     <>
+      <Background />
       <Navbar />
       <Landing />
       <Details />

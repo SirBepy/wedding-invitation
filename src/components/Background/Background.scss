@@ -1,0 +1,123 @@
+@use '../../styles/variables' as *;
+
+// ======================== SHARED LAYERS ========================
+
+// Both containers are fixed, full-viewport, non-interactive, behind all page content
+.bg,
+.bg-corners {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+// Falling flowers layer — clips flowers that drift outside viewport edges
+.bg {
+  overflow: hidden;
+}
+
+// Tint overlay — sits above falling flowers, below corner flowers
+.bg-tint {
+  position: absolute;
+  inset: 0;
+}
+
+// ======================== CORNER FLOWERS ========================
+
+// .bg-corners is a separate fixed container rendered after .bg in the DOM,
+// so it naturally stacks above .bg (and above the tint) at the same z-index level.
+
+.bg-corner {
+  position: absolute;
+  bottom: 0;
+
+  &--left {
+    left: 0;
+  }
+
+  &--right {
+    right: 0;
+  }
+}
+
+.bg-corner-img {
+  position: absolute;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+// ======================== FALLING FLOWER ANIMATIONS ========================
+
+// Vertical fall — moves element from above viewport to below
+@keyframes fall-y {
+  from {
+    transform: translateY(var(--fall-from-y));
+  }
+  to {
+    transform: translateY(var(--fall-to-y));
+  }
+}
+
+// Directional drift — horizontal offset that matches the chosen fall angle
+@keyframes fall-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--drift-x));
+  }
+}
+
+// Organic flicker — side-to-side oscillation layered on top of the drift
+@keyframes fall-flicker {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(var(--flicker-x));
+  }
+  75% {
+    transform: translateX(calc(-1 * var(--flicker-x)));
+  }
+}
+
+// Slow spin
+@keyframes fall-rotate {
+  from {
+    transform: rotate(var(--rot-from));
+  }
+  to {
+    transform: rotate(var(--rot-to));
+  }
+}
+
+// ======================== FALLING FLOWER ELEMENTS ========================
+// Three nested divs compose Y-fall + X-drift + flicker independently,
+// since multiple animations on the same transform axis would conflict.
+// All CSS custom properties are inherited from the outermost .bg-fall-y element.
+
+.bg-fall-y {
+  position: absolute;
+  top: 0;
+  will-change: transform;
+  animation: fall-y var(--fall-duration) linear var(--fall-delay) infinite;
+}
+
+.bg-fall-x {
+  will-change: transform;
+  animation: fall-x var(--fall-duration) linear var(--fall-delay) infinite;
+}
+
+.bg-fall-flicker {
+  will-change: transform;
+  animation: fall-flicker var(--flicker-duration) ease-in-out infinite;
+}
+
+.bg-fall-img {
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+  animation: fall-rotate var(--fall-duration) linear var(--fall-delay) infinite;
+}
