@@ -57,8 +57,18 @@
 }
 
 html {
+  font-size: 100%;
   scroll-behavior: smooth;
   color-scheme: light;
+  background-color: $color-bg;
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: 87.5%; // 14px
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 75%; // 12px
+  }
 }
 
 body {
