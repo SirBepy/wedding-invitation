@@ -10,14 +10,14 @@
   }
 
   .landing-text {
-    font-size: 14px;
+    font-size: 0.875em;
 
     &--faded {
       opacity: 0.3;
     }
 
     &--big {
-      font-size: 20px;
+      font-size: 1.25em;
     }
 
     &.on {
@@ -28,7 +28,7 @@
 
   .landing-names {
     color: $color-primary;
-    font-size: 36px;
+    font-size: 2.25em;
     letter-spacing: 0.3em;
     padding-left: 0.3em;
     font-weight: 400;
@@ -38,7 +38,7 @@
 
   .landing-date {
     color: $color-primary;
-    font-size: 34px;
+    font-size: 2.125em;
     letter-spacing: 0.8em;
     padding-left: 0.8em;
     font-weight: 400;
@@ -47,7 +47,7 @@
   }
 
   .landing-rsvp {
-    font-size: 20px;
+    font-size: 1.25em;
     font-weight: 700;
   }
 }
