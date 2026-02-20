@@ -12,7 +12,7 @@
   padding: 1em 2em;
 
   &__logo {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     color: $color-primary;
     text-decoration: none;
     padding-bottom: 0.2em;
@@ -35,7 +35,7 @@
   }
 
   &__link {
-    font-size: 1em;
+    font-size: 1rem;
     color: $color-primary-var2;
     text-decoration: none;
     padding-bottom: 0.2em;
@@ -58,7 +58,7 @@
   }
 
   &__cta {
-    font-size: 0.9em;
+    font-size: 0.9rem;
 
     .button__front {
       padding: 0.5em 1.5em;
@@ -153,14 +153,14 @@
 
   &__names {
     color: $color-primary;
-    font-size: 2.5em;
+    font-size: 2.5rem;
     letter-spacing: 0.2em;
     text-align: center;
   }
 
   &__date {
     color: $color-primary-var2;
-    font-size: 1.3em;
+    font-size: 1.3rem;
     text-align: center;
     margin-top: 0.2em;
     opacity: 0.5;
@@ -175,7 +175,7 @@
   }
 
   &__link {
-    font-size: 1.25em;
+    font-size: 1.25rem;
     color: $color-primary-var2;
     text-decoration: none;
     transition: color 0.2s;
@@ -186,7 +186,7 @@
   }
 
   &__cta {
-    font-size: 1em;
+    font-size: 1rem;
     margin-top: 1em;
 
     .button__front {

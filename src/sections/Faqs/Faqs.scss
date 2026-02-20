@@ -31,7 +31,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     color: $color-primary;
     opacity: 0.4;
     text-align: right;
@@ -88,7 +88,7 @@
   }
 
   .faqs-questions__question {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     color: $color-primary;
     opacity: 1;
     transition: opacity 0.3s;
@@ -97,7 +97,7 @@
   }
 
   .faqs-questions__answer {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     color: $color-primary-var2;
     // font:
     margin-top: 0.4em;

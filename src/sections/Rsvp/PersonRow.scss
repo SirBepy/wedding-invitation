@@ -22,13 +22,13 @@
   }
 
   &__name {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     color: $color-primary;
     letter-spacing: 0.1em;
   }
 
   &__timestamp {
-    font-size: 0.75em;
+    font-size: 0.75rem;
     color: $color-primary-var3;
     letter-spacing: 0.05em;
   }
@@ -36,7 +36,7 @@
   &__delete {
     background: none;
     border: none;
-    font-size: 1.4em;
+    font-size: 1.4rem;
     color: $color-primary-var3;
     cursor: pointer;
     min-width: 44px;
@@ -54,7 +54,7 @@
 
   &__warning {
     margin-top: 0.5em;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     color: #b8860b;
     letter-spacing: 0.05em;
   }

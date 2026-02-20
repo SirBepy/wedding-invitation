@@ -3,7 +3,7 @@
 .rsvp-modal {
   &__title {
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     margin-bottom: 1em;
     color: $color-primary;
     letter-spacing: 0.2em;
@@ -24,7 +24,7 @@
   &__retry {
     margin-top: 0.8em;
     padding: 0.5em 1.5em;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     letter-spacing: 0.1em;
     background-color: $color-primary;
     color: #fff;
@@ -43,7 +43,7 @@
       text-align: center;
       margin-bottom: 1em;
       color: $color-primary-var3;
-      font-size: 0.9em;
+      font-size: 0.9rem;
     }
   }
 
@@ -63,7 +63,7 @@
   &__add-select {
     width: 100%;
     padding: 0.6em 1em;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     border: 2px dashed $color-primary-var3;
     border-radius: 6px;
     background-color: transparent;
@@ -80,7 +80,7 @@
   &__submit {
     width: 100%;
     padding: 0.8em;
-    font-size: 1em;
+    font-size: 1rem;
     letter-spacing: 0.2em;
     background-color: $color-primary;
     color: #fff;
@@ -102,7 +102,7 @@
   &__submit-error {
     text-align: center;
     color: $color-accent;
-    font-size: 0.85em;
+    font-size: 0.85rem;
     margin-bottom: 1em;
   }
 }
