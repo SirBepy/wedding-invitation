@@ -70,6 +70,6 @@ export function getRelativeTime(utcDateString) {
 // Self-initialize: runs automatically when this module is loaded or imported.
 console.log(
   `%c${PROJECT_NAME}`,
-  "font-size: 16px; font-weight: bold; color: #2c3e50;",
+  "font-size: 16px; font-weight: bold; color: #55a7ff;",
 );
 console.log(`Last updated: ${getRelativeTime(BUILD_TIMESTAMP)}`);
