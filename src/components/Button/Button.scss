@@ -1,8 +1,8 @@
 @use "../../styles/variables" as *;
 
-$button-offset-click: 2px;
-$button-offset-default: 5px;
-$button-offset-hover: 8px;
+$button-offset-click: 5px;
+$button-offset-default: 10px;
+$button-offset-hover: 15px;
 
 .button {
   position: relative;
