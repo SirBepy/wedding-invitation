@@ -33,7 +33,9 @@ export default function Timeline() {
               <span className="timeline__time font-decorative1">
                 {item.time}
               </span>
-              <div className="timeline__dot"></div>
+              <div className="timeline__line-col">
+                <div className="timeline__dot"></div>
+              </div>
               <img className="timeline__icon" src={item.icon} alt="" />
               <span
                 className="timeline__title font-decorative2"

@@ -13,11 +13,6 @@
     align-items: stretch;
     position: relative;
     padding: 2em 0;
-
-    @media only screen and (max-width: 1000px) {
-      flex-direction: column;
-      align-items: center;
-    }
   }
 
   .timeline__item {
@@ -26,21 +21,21 @@
     align-items: center;
     position: relative;
     min-width: 7em;
-    padding: 0 1.5em;
-    position: relative;
+    padding: 0 min(2em, 1vw);
     height: 100%;
     letter-spacing: 0;
 
-    &:not(:last-child)::before {
-      content: "";
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      height: 2px;
-      width: 100%;
-      z-index: -1;
-
-      background-color: $color-primary-var2;
+    @media only screen and (min-width: $breakpoint-tablet) {
+      &:not(:last-child)::before {
+        content: "";
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        height: 2px;
+        width: 100%;
+        z-index: -1;
+        background-color: $color-primary-var2;
+      }
     }
   }
 
@@ -58,6 +53,11 @@
     background-color: $color-primary;
     z-index: 1;
     flex-shrink: 0;
+
+    @media only screen and (max-width: $breakpoint-tablet) {
+      height: 5px;
+      width: 5px;
+    }
   }
 
   .timeline__icon {
@@ -73,6 +73,77 @@
     margin-top: 2em;
     text-align: center;
     white-space: nowrap;
+  }
+
+  @media only screen and (max-width: $breakpoint-tablet) {
+    .timeline {
+      display: grid;
+      grid-template-columns: auto 2.5em auto 1fr;
+      row-gap: 0;
+      column-gap: 1.2em;
+      align-items: center;
+      padding: 1em;
+    }
+
+    .timeline__item {
+      display: contents;
+    }
+
+    // Row spacing via padding on each cell
+    .timeline__time,
+    .timeline__line-col,
+    .timeline__icon,
+    .timeline__title {
+      padding-top: 0.55em;
+      padding-bottom: 0.55em;
+    }
+
+    .timeline__line-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      align-self: stretch;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 0.5px;
+        background-color: $color-primary;
+        transform: translateX(-50%);
+      }
+    }
+
+    // Clip line above first dot and below last dot
+    .timeline__item:first-child .timeline__line-col::before {
+      top: 50%;
+    }
+
+    .timeline__item:last-child .timeline__line-col::before {
+      bottom: 50%;
+    }
+
+    .timeline__time {
+      margin-bottom: 0;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .timeline__icon {
+      width: 60px;
+      height: 60px;
+      margin-top: 0;
+      object-fit: contain;
+    }
+
+    .timeline__title {
+      margin-top: 0;
+      text-align: left;
+      white-space: normal;
+    }
   }
 
   .timeline-locations {
