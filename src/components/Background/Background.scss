@@ -24,10 +24,18 @@
 
   &--left {
     left: 0;
+    transform-origin: bottom left;
+    transform: scale(var(--corner-scale, 1));
   }
 
   &--right {
     right: 0;
+    transform-origin: bottom right;
+    transform: scale(var(--corner-scale, 1));
+  }
+
+  @media (max-width: 768px) {
+    --corner-scale: 0.45;
   }
 }
 
@@ -102,7 +110,8 @@
 
 .bg-fall-wiggle {
   will-change: transform;
-  animation: fall-wiggle var(--wiggle-duration) ease-in-out var(--wiggle-delay) infinite;
+  animation: fall-wiggle var(--wiggle-duration) ease-in-out var(--wiggle-delay)
+    infinite;
 }
 
 .bg-fall-img {
@@ -115,17 +124,21 @@
 
 // Vanish — random opacity fade-out then fade-back-in cycle
 @keyframes vanish {
-  0%, 60% {
+  0%,
+  60% {
     opacity: 1;
   }
-  70%, 85% {
+  70%,
+  85% {
     opacity: 0;
   }
-  95%, 100% {
+  95%,
+  100% {
     opacity: 1;
   }
 }
 
 .bg-fall-vanish {
-  animation: vanish var(--vanish-duration) ease-in-out var(--vanish-delay) infinite;
+  animation: vanish var(--vanish-duration) ease-in-out var(--vanish-delay)
+    infinite;
 }
