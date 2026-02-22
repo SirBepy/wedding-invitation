@@ -24,13 +24,20 @@
   &__name {
     font-size: 1.1rem;
     color: $color-primary;
-    letter-spacing: 0.1em;
   }
 
   &__timestamp {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: $color-primary-var3;
     letter-spacing: 0.05em;
+
+    strong {
+      font-weight: 700;
+    }
+
+    &--warning {
+      color: #c49a00;
+    }
   }
 
   &__delete {
@@ -50,12 +57,5 @@
     &:hover {
       color: $color-accent;
     }
-  }
-
-  &__warning {
-    margin-top: 0.5em;
-    font-size: 0.8rem;
-    color: #b8860b;
-    letter-spacing: 0.05em;
   }
 }
