@@ -53,6 +53,8 @@
   }
 
   &__people {
+    max-height: 50vh;
+    overflow-y: auto;
     margin-bottom: 1em;
   }
 
@@ -74,6 +76,68 @@
 
     &:focus {
       border-color: $color-primary;
+    }
+  }
+
+  &__submitting {
+    padding-bottom: 0.5em;
+  }
+
+  &__submitting-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    color: $color-primary-var3;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2em;
+  }
+
+  &__spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba($color-primary-var3, 0.4);
+    border-top-color: $color-primary-var3;
+    border-radius: 50%;
+    animation: rsvp-spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  &__status-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6em 0;
+    border-bottom: 1px solid rgba($color-primary-var3, 0.3);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__status-name {
+    color: $color-primary;
+    letter-spacing: 0.1em;
+  }
+
+  &__status-badge {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+
+    &--coming {
+      color: $color-primary;
+    }
+
+    &--not-coming {
+      color: $color-accent;
     }
   }
 
@@ -104,5 +168,11 @@
     color: $color-accent;
     font-size: 0.85rem;
     margin-bottom: 1em;
+  }
+}
+
+@keyframes rsvp-spin {
+  to {
+    transform: rotate(360deg);
   }
 }

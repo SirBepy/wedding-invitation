@@ -75,9 +75,7 @@ export default function Rsvp() {
       <RsvpModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSuccess={() =>
-          setToast({ message: "RSVP submitted successfully!", type: "success" })
-        }
+        onSuccess={(message) => setToast({ message, type: "success" })}
         groupId={groupId}
       />
       {toast && (

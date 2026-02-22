@@ -199,22 +199,32 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
   const handleSubmit = async () => {
     dispatch({ type: "SET_SUBMITTING", value: true });
 
-    const people = state.selectedPeople
-      .filter((p) => p.status)
+    const allWithStatus = state.selectedPeople.filter((p) => p.status);
+
+    const changedPeople = allWithStatus
+      .filter((p) => p.status !== state.originalStatuses[p.rowNumber])
       .map((p) => ({ rowNumber: p.rowNumber, name: p.name, status: p.status }));
 
-    const result = await api.execute("submitRsvp", { people });
+    if (changedPeople.length > 0) {
+      const result = await api.execute("submitRsvp", { people: changedPeople });
 
-    if (api.error || !result) {
-      dispatch({
-        type: "SET_SUBMIT_ERROR",
-        error: api.error || "Failed to submit RSVP",
-      });
-      return;
+      if (api.error || !result) {
+        dispatch({
+          type: "SET_SUBMIT_ERROR",
+          error: api.error || "Failed to submit RSVP",
+        });
+        return;
+      }
+
+      updateGuestCache(changedPeople);
     }
 
-    updateGuestCache(people);
-    onSuccess?.();
+    const anyoneComing = allWithStatus.some((p) => p.status === "Coming");
+    const message = anyoneComing
+      ? "We are looking forward to seeing you!"
+      : "We are sorry to hear you can't make it. We still hope to see you soon.";
+
+    onSuccess?.(message);
     onClose();
   };
 
@@ -223,15 +233,6 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
   );
 
   const hasValidSelection = state.selectedPeople.some((p) => p.status);
-
-  const getWarning = (person) => {
-    const original = state.originalStatuses[person.rowNumber];
-    if (!original || !person.status) return null;
-    if (person.status !== original) {
-      return `Previously responded "${original}" — this will update their response.`;
-    }
-    return null;
-  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -265,22 +266,43 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
           </div>
         )}
 
-        {state.mode === "form" && (
+        {state.submitting && (
+          <div className="rsvp-modal__submitting">
+            <p className="rsvp-modal__submitting-label font-text">
+              <span className="rsvp-modal__spinner" />
+              Sending responses
+            </p>
+            <ul className="rsvp-modal__status-list">
+              {state.selectedPeople
+                .filter((p) => p.status)
+                .map((person) => (
+                  <li key={person.rowNumber} className="rsvp-modal__status-item">
+                    <span className="rsvp-modal__status-name font-text-2">
+                      {person.name}
+                    </span>
+                    <span
+                      className={`rsvp-modal__status-badge font-text-2 rsvp-modal__status-badge--${person.status === "Coming" ? "coming" : "not-coming"}`}
+                    >
+                      {person.status}
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+
+        {state.mode === "form" && !state.submitting && (
           <div className="rsvp-modal__form">
             <div className="rsvp-modal__people">
-              {state.selectedPeople.map((person) => {
-                const warning = getWarning(person);
-                return (
-                  <PersonRow
-                    key={person.rowNumber}
-                    person={person}
-                    onStatusChange={handleStatusChange}
-                    onDelete={handleDelete}
-                    showWarning={!!warning}
-                    warningMessage={warning}
-                  />
-                );
-              })}
+              {state.selectedPeople.map((person) => (
+                <PersonRow
+                  key={person.rowNumber}
+                  person={person}
+                  originalStatus={state.originalStatuses[person.rowNumber]}
+                  onStatusChange={handleStatusChange}
+                  onDelete={handleDelete}
+                />
+              ))}
             </div>
 
             {remainingMembers.length > 0 && (
@@ -296,7 +318,6 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
                   {remainingMembers.map((g) => (
                     <option key={g.rowNumber} value={g.rowNumber}>
                       {g.name}
-                      {g.respondedAt ? ` (already responded)` : ""}
                     </option>
                   ))}
                 </select>
@@ -310,11 +331,11 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
             )}
 
             <button
-              className="rsvp-modal__submit font-text"
+              className="rsvp-modal__submit font-text-2"
               onClick={handleSubmit}
-              disabled={!hasValidSelection || state.submitting}
+              disabled={!hasValidSelection}
             >
-              {state.submitting ? "Submitting..." : "Submit RSVP"}
+              Submit RSVP
             </button>
           </div>
         )}
