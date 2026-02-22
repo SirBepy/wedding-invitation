@@ -96,6 +96,7 @@ export default function Navbar() {
             text="RSVP"
             href="#rsvp"
             classes="navbar-menu__cta font-text"
+            onClick={closeMenu}
           />
         </div>
       </div>
