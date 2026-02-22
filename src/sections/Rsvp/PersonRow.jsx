@@ -42,37 +42,35 @@ export default function PersonRow({
 
   return (
     <div className="person-row">
-      <div className="person-row__header">
-        <div className="person-row__info">
-          <span className="person-row__name font-text-2">{person.name}</span>
-          {hasResponded && relativeTime && (
-            <span
-              className={`person-row__timestamp font-text-2 ${isWarning ? " person-row__timestamp--warning" : ""}`}
-            >
-              {isWarning ? (
-                <>
-                  Warning: Responded <strong>{originalStatus}</strong>{" "}
-                  {relativeTime}. <br />
-                  You&apos;re about to overwrite that with{" "}
-                  <strong>{person.status}</strong>
-                </>
-              ) : (
-                <>
-                  Responded <strong>{originalStatus}</strong> {relativeTime}
-                </>
-              )}
-            </span>
-          )}
-        </div>
-        <button
-          className="person-row__delete font-text-2"
-          onClick={() => onDelete(person.rowNumber)}
-          aria-label={`Remove ${person.name}`}
-        >
-          &times;
-        </button>
+      <div className="person-row__info">
+        <span className="person-row__name font-text-2">{person.name}</span>
+        <Toggle value={toggleValue} onChange={handleToggle} />
+        {hasResponded && relativeTime && (
+          <span
+            className={`person-row__timestamp font-text-2 ${isWarning ? " person-row__timestamp--warning" : ""}`}
+          >
+            {isWarning ? (
+              <>
+                Warning: Responded <strong>{originalStatus}</strong>{" "}
+                {relativeTime}. <br />
+                You&apos;re about to overwrite that with{" "}
+                <strong>{person.status}</strong>
+              </>
+            ) : (
+              <>
+                Responded <strong>{originalStatus}</strong> {relativeTime}
+              </>
+            )}
+          </span>
+        )}
       </div>
-      <Toggle value={toggleValue} onChange={handleToggle} />
+      <button
+        className="person-row__delete font-text-2"
+        onClick={() => onDelete(person.rowNumber)}
+        aria-label={`Remove ${person.name}`}
+      >
+        &times;
+      </button>
     </div>
   );
 }

@@ -132,10 +132,10 @@ a {
 
   &:hover {
     color: $color-accent;
-    text-shadow: 0 0 6px $color-accent;
+    text-shadow: 0 0 10px $color-accent;
   }
 
   &:active {
-    text-shadow: 0 0 0px $color-accent;
+    text-shadow: 0 0 8px $color-accent;
   }
 }

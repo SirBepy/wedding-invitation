@@ -8,17 +8,14 @@
     border-bottom: none;
   }
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.6em;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
   &__info {
     display: flex;
     flex-direction: column;
-    gap: 0.2em;
+    gap: 0.6em;
   }
 
   &__name {
