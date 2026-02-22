@@ -15,45 +15,36 @@
     font-size: 1.5rem;
     color: $color-primary;
     text-decoration: none;
-    padding-bottom: 0.2em;
-    background-image: linear-gradient($color-primary, $color-primary);
-    background-size: 0% 2px;
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    transition:
-      color 0.3s,
-      background-size 0.3s;
+    transition: 0.3s;
 
     &--active {
-      background-size: 100% 2px;
+      color: $color-accent;
+      text-shadow: 0 0 8px $color-accent;
+      font-size: 1.6rem;
     }
   }
 
   &__links {
     display: flex;
     gap: 2em;
+    line-height: 1em;
   }
 
   &__link {
     font-size: 1rem;
     color: $color-primary-var2;
     text-decoration: none;
-    padding-bottom: 0.2em;
-    background-image: linear-gradient($color-primary, $color-primary);
-    background-size: 0% 2px;
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    transition:
-      color 0.3s,
-      background-size 0.3s;
+    transition: all 0.3s;
 
     &:hover {
       color: $color-accent;
     }
 
     &--active {
-      color: $color-primary;
-      background-size: 100% 2px;
+      color: $color-accent;
+      text-shadow: 0 0 8px $color-accent;
+      font-weight: bold;
+      font-size: 1.1rem;
     }
   }
 
@@ -182,6 +173,7 @@
 
     &:hover {
       color: $color-accent;
+      font-weight: 600;
     }
   }
 
