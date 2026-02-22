@@ -7,9 +7,14 @@ const BASE = import.meta.env.BASE_URL;
 
 // Images picked randomly for the falling effect
 const FALLING_IMAGES = [
-  // `${BASE}icons/flowers/flower_1.webp`,
-  // `${BASE}icons/flowers/flower_2.webp`,
-  `${BASE}icons/flowers/flower_3.webp`,
+  `${BASE}icons/petals/img1.png`,
+  `${BASE}icons/petals/img2.png`,
+  `${BASE}icons/petals/img3.png`,
+  `${BASE}icons/petals/img4.png`,
+  `${BASE}icons/petals/img5.png`,
+  `${BASE}icons/petals/img6.png`,
+  `${BASE}icons/petals/img7.png`,
+  `${BASE}icons/petals/img8.png`,
 ];
 
 const FALLING = {
@@ -20,9 +25,9 @@ const FALLING = {
   wiggleDuration: 3.5, // seconds per full wiggle cycle (lower = faster)
   minDuration: 12, // seconds, minimum fall cycle
   maxDuration: 22, // seconds, maximum fall cycle
-  minSize: 20, // px
+  minSize: 40, // px
   maxSize: 65, // px
-  opacity: 0.15, // max opacity (each flower gets a random fraction of this)
+  opacity: 0.11, // max opacity (each flower gets a random fraction of this)
   vanishChance: 0.55, // fraction of flowers that randomly vanish
   vanishMinDuration: 15, // seconds, full vanish cycle length
   vanishMaxDuration: 28, // seconds, full vanish cycle length
