@@ -44,33 +44,34 @@ export default function PersonRow({
     <div className="person-row">
       <div className="person-row__info">
         <span className="person-row__name font-text-2">{person.name}</span>
-        <Toggle value={toggleValue} onChange={handleToggle} />
-        {hasResponded && relativeTime && (
-          <span
-            className={`person-row__timestamp font-text-2 ${isWarning ? " person-row__timestamp--warning" : ""}`}
-          >
-            {isWarning ? (
-              <>
-                Warning: Responded <strong>{originalStatus}</strong>{" "}
-                {relativeTime}. <br />
-                You&apos;re about to overwrite that with{" "}
-                <strong>{person.status}</strong>
-              </>
-            ) : (
-              <>
-                Responded <strong>{originalStatus}</strong> {relativeTime}
-              </>
-            )}
-          </span>
-        )}
+        <button
+          className="person-row__delete font-text-2"
+          onClick={() => onDelete(person.rowNumber)}
+          aria-label={`Remove ${person.name}`}
+        >
+          &times;
+        </button>
       </div>
-      <button
-        className="person-row__delete font-text-2"
-        onClick={() => onDelete(person.rowNumber)}
-        aria-label={`Remove ${person.name}`}
-      >
-        &times;
-      </button>
+
+      <Toggle value={toggleValue} onChange={handleToggle} />
+      {hasResponded && relativeTime && (
+        <span
+          className={`person-row__timestamp font-text-2 ${isWarning ? " person-row__timestamp--warning" : ""}`}
+        >
+          {isWarning ? (
+            <>
+              Warning: Responded <strong>{originalStatus}</strong>{" "}
+              {relativeTime}. <br />
+              You&apos;re about to overwrite that with{" "}
+              <strong>{person.status}</strong>
+            </>
+          ) : (
+            <>
+              Responded <strong>{originalStatus}</strong> {relativeTime}
+            </>
+          )}
+        </span>
+      )}
     </div>
   );
 }

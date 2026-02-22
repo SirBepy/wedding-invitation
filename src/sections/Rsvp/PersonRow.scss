@@ -1,7 +1,11 @@
 @use "../../styles/variables" as *;
 
 .person-row {
+  width: 100%;
   padding: 1em 0;
+  flex-direction: column;
+  gap: 0.6em;
+
   border-bottom: 1px solid rgba($color-primary-var3, 0.3);
 
   &:last-child {
@@ -13,9 +17,9 @@
   align-items: flex-start;
 
   &__info {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 0.6em;
+    justify-content: space-between;
   }
 
   &__name {
@@ -45,6 +49,7 @@
     cursor: pointer;
     min-width: 44px;
     min-height: 44px;
+    margin-top: -12px;
     display: flex;
     align-items: center;
     justify-content: center;

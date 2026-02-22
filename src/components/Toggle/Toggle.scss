@@ -43,7 +43,6 @@
   }
 
   @media (max-width: $breakpoint-mobile) {
-    flex-direction: column;
     width: 100%;
 
     &__btn {
