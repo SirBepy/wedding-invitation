@@ -7,7 +7,7 @@ const faqCategories = [
     questions: [
       {
         q: "What is the dress code?",
-        a: "Formal, black-tie optional",
+        a: "Formal",
       },
       {
         q: "Can I bring a plus one?",

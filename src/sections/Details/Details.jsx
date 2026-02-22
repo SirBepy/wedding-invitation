@@ -1,7 +1,7 @@
 import "./Details.scss";
 
 const items = [
-  ["Dress Code", "Formal / Black-tie Optional"],
+  ["Dress Code", "Formal"],
   ["Location", "Outdoor"],
   ["Parking", "Parking available at Hotel Storia"],
   ["Transportation", "Shuttle Bus offered to church if preferred"],
