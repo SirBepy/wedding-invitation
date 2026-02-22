@@ -104,4 +104,50 @@
     letter-spacing: 0;
     font-family: "Noto Serif", serif;
   }
+
+  @media (max-width: $breakpoint-mobile) {
+    .faqs-container {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .faqs-categories {
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 0;
+      min-width: unset;
+      border-bottom: 2px solid rgba($color-primary, 0.15);
+      padding-bottom: 0;
+      justify-content: flex-start;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .faqs-categories__item {
+      font-size: 0.95rem;
+      text-align: center;
+      white-space: nowrap;
+      opacity: 0.4;
+      padding: 0.6em 1.2em;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      letter-spacing: 0.08em;
+
+      &--active {
+        opacity: 1;
+        border-bottom-color: $color-accent;
+      }
+    }
+
+    .faqs-divider {
+      display: none;
+    }
+
+    .faqs-questions {
+      margin-top: 1.5em;
+    }
+  }
 }
