@@ -171,25 +171,62 @@ $envelope-color-sides: $color-primary; // Sides
   }
 }
 
-// ======================== SEAL (heart icon) ========================
+// ======================== SEAL (wax stamp) ========================
+
+// Separate X/rotation (linear drift) from Y (parabolic arc) using two nested elements
+// The outer .envelope__seal handles X + rotation with a linear timing
+// The inner img handles Y with an ease-in curve (slow at peak, accelerates down)
+
+@keyframes seal-x {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(-05%);
+  }
+}
+
+@keyframes seal-y {
+  0% {
+    transform: translateY(-60%) rotate(0deg);
+  }
+  35% {
+    // Peak of the throw — hangs in the air
+    transform: translateY(-130%) rotate(10deg);
+  }
+  100% {
+    // Falls down off screen
+    transform: translateY(100vh) rotate(35deg);
+  }
+}
 
 .envelope__seal {
   position: absolute;
   // Position at the tip of the flap triangle (~55% down, centered)
   top: calc(55%);
   left: 50%;
-  transform: translateX(-50%) translateY(-60%);
+  width: 18%; // Proportional to envelope body
+  transform: translateX(-50%);
   z-index: 5; // On top of flap
-  font-size: 4.75em;
-  color: $color-accent;
-  transition: opacity 0.3s ease;
-  // ENHANCEMENT: Replace with an SVG wax seal with embossed couple's initials
-  // ENHANCEMENT: Add a scale-bounce animation on hover for interactivity
+
+  img {
+    display: block;
+    width: 100%;
+    transform: translateY(-60%);
+  }
 
   .envelope--opening &,
   .envelope--revealing &,
   .envelope--exiting & {
-    opacity: 0;
+    // Outer: horizontal drift + rotation (linear)
+    animation: seal-x 1s linear forwards;
+
+    img {
+      // Inner: vertical arc (ease-in = hangs at peak, accelerates down)
+      animation: seal-y 1s ease-in forwards;
+    }
+  }
+}
   }
 }
 
@@ -199,10 +236,6 @@ $envelope-color-sides: $color-primary; // Sides
   .envelope__body {
     width: 92vw;
     height: 65vw;
-  }
-
-  .envelope__seal {
-    font-size: 1.4em;
   }
 
   .envelope__letter-names {

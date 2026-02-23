@@ -77,9 +77,11 @@ export default function Envelope({ onComplete }) {
 
         {/* Flap and seal are outside __inner so they aren't clipped by overflow:hidden */}
         <div className="envelope__flap" />
-        {/* ENHANCEMENT: Replace heart with an SVG wax seal with embossed initials */}
         <div className="envelope__seal">
-          <i className="fa-solid fa-heart"></i>
+          <img
+            src={`${import.meta.env.BASE_URL}icons/seal.png`}
+            alt="wax seal"
+          />
         </div>
       </div>
 
