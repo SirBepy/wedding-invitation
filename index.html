@@ -18,12 +18,17 @@
     <link rel="preload" as="font" href="fonts/Catchy-Mager.ttf" type="font/truetype" crossorigin>
 
     <!-- Google Fonts loaded as a <link> (faster than @import inside CSS) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- display=block: briefly invisible while loading instead of showing fallback then swapping -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=block"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
+    <!-- Font primer: triggers Noto Serif download at parse time, before React renders -->
+    <span style="font-family: 'Noto Serif', serif; visibility: hidden; position: absolute; left: -9999px;"
+        aria-hidden="true">.</span>
     <div id="app"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
