@@ -1,4 +1,5 @@
 @use "../../styles/variables" as *;
+@use "sass:color";
 
 // ======================== TIMING CONFIGURATION ========================
 // These should match the TIMINGS object in Envelope.jsx
@@ -12,8 +13,8 @@ $letter-easing: cubic-bezier(0.4, 0, 0.2, 1); // Material-style ease out
 $exit-easing: cubic-bezier(0.55, 0, 1, 0.45); // Accelerate off screen
 
 $envelope-color-bg: #3e2957;
-$envelope-color-flap: lighten($color-primary, 5%); //
-$envelope-color-bottom: darken($color-primary, 3%); // bottom
+$envelope-color-flap: color.adjust($color-primary, $lightness: 5%); //
+$envelope-color-bottom: color.adjust($color-primary, $lightness: -3%); // bottom
 $envelope-color-sides: $color-primary; // Sides
 
 // ======================== ENVELOPE OVERLAY ========================

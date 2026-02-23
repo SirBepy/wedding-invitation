@@ -1,4 +1,5 @@
 @use "../../styles/variables" as *;
+@use "sass:color";
 
 .toast {
   position: fixed;
@@ -26,7 +27,7 @@
   &--error {
     background-color: $color-accent;
     color: #fff;
-    border: 1px solid darken($color-accent, 10%);
+    border: 1px solid color.adjust($color-accent, $lightness: -10%);
   }
 
   &--exiting {
