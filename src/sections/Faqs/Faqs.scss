@@ -52,6 +52,10 @@
     &--active {
       opacity: 1;
     }
+
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.2rem;
+    }
   }
 
   // Sliding indicator bar — positioned absolutely inside .faqs-categories
@@ -61,7 +65,9 @@
     height: 3px;
     background-color: $color-accent;
     border-radius: 2px;
-    transition: left 0.3s ease, width 0.3s ease;
+    transition:
+      left 0.3s ease,
+      width 0.3s ease;
   }
 
   // Questions — all groups rendered in a CSS grid stack so the container
