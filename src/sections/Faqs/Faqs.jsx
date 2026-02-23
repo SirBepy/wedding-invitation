@@ -6,15 +6,7 @@ const faqCategories = [
     name: "General",
     questions: [
       {
-        q: "What is the dress code?",
-        a: "Formal",
-      },
-      {
         q: "Can I bring a plus one?",
-        a: "Please check with us on whatsapp before you RSVP to confirm if you can bring a plus one.",
-      },
-      {
-        q: "Will there be parking available?",
         a: "Please check with us on whatsapp before you RSVP to confirm if you can bring a plus one.",
       },
     ],
@@ -23,16 +15,24 @@ const faqCategories = [
     name: "Travel & Accommodation",
     questions: [
       {
-        q: "Where should I stay?",
-        a: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        q: "Do I need a visa to get to Medugorje?",
+        a: "UK and Canadian guests do not require a visa. For South Africans, please note that you will need a multi-entry Schengen visa. Additionally, you need to enter BiH from a Schengen country.",
       },
       {
-        q: "How do I get to the venue?",
-        a: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
+        q: "Which airport do I fly to?",
+        a: "If you're wanting to fly directly to Croatia, we'd recommend the Split airport as it is the closet to Medugorje - 2 hours drive away. You can always fly through Zagreb, but Zagreb airport is 5-6 hours drive away.",
       },
       {
-        q: "Is there a shuttle service?",
-        a: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.",
+        q: "If I fly through Split, how do I get to Medugorje?",
+        a: "You can catch a bus from Split to Medugorje. If there are enough SA guests coming through Split, we can try to organise a shuttle bus to pick the lot of you up and bring you to Medugorje.",
+      },
+      {
+        q: "Will there be transportation available while in Medugorje?",
+        a: "We will organise a shuttle bus for the day of the wedding for any guests who do not have access to a car.",
+      },
+      {
+        q: "What touristic activities can I do while in Croatia and Hercegovina?",
+        a: "Please take a look at <a href='https://docs.google.com/document/d/1YHtsDz1PAMM2rCK69JH41a-1yPDKRJX5lpSUaa3GwCk/edit?tab=t.0#heading=h.q1p9y64xtx9q' target='_blank'>this document</a> that lists our recommendations for touristic activities in Croatia and Hercegovina.",
       },
     ],
   },
