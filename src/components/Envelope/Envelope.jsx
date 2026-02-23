@@ -41,6 +41,47 @@ const PETALS = {
 
 // TODO: bring back the petals
 function generatePetals() {
+  // return Array.from({ length: PETALS.count }, (_, i) => {
+  //   const src = PETAL_IMAGES[Math.floor(Math.random() * PETAL_IMAGES.length)];
+  //   const size =
+  //     PETALS.minSize + Math.random() * (PETALS.maxSize - PETALS.minSize);
+  //   const duration =
+  //     PETALS.minDuration +
+  //     Math.random() * (PETALS.maxDuration - PETALS.minDuration);
+  //   const delay = Math.random() * PETALS.maxDelay;
+
+  //   // Resting position: scattered around center of envelope
+  //   const halfSpread = PETALS.spreadX / 2;
+  //   const startX = -halfSpread + Math.random() * PETALS.spreadX; // % from center (left:50%)
+  //   const startY = PETALS.restingY + (Math.random() - 0.5) * 2 * PETALS.spreadY;
+
+  //   // Burst direction: left-of-center petals fly RIGHT, right-of-center fly LEFT
+  //   const burstDir = startX < 0 ? 1 : -1;
+  //   const burstX = burstDir * (30 + Math.random() * 60); // % horizontal burst
+
+  //   // Peak height: how far up they kick before falling
+  //   const peakY = -(PETALS.burstUp * (0.7 + Math.random() * 0.6)); // % upward from start
+
+  //   // Rotation
+  //   const rotFrom = Math.random() * 360;
+  //   const rotTo =
+  //     rotFrom + (Math.random() > 0.5 ? 1 : -1) * (90 + Math.random() * 270);
+
+  //   return {
+  //     id: i,
+  //     src,
+  //     size: +size.toFixed(1),
+  //     duration: +duration.toFixed(2),
+  //     delay: +delay.toFixed(2),
+  //     startX: +startX.toFixed(1),
+  //     startY: +startY.toFixed(1),
+  //     burstX: +burstX.toFixed(1),
+  //     peakY: +peakY.toFixed(1),
+  //     rotFrom: Math.round(rotFrom),
+  //     rotTo: Math.round(rotTo),
+  //     opacity: +(0.5 + Math.random() * 0.5).toFixed(2),
+  //   };
+  // });
   return [];
 }
 
