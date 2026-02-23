@@ -1,0 +1,210 @@
+@use "../../styles/variables" as *;
+
+// ======================== TIMING CONFIGURATION ========================
+// These should match the TIMINGS object in Envelope.jsx
+$flap-duration: 0.8s;
+$letter-duration: 0.9s;
+$exit-duration: 0.8s;
+
+// Easing curves
+$flap-easing: cubic-bezier(0.6, 0, 0.4, 1); // Smooth deceleration for flap
+$letter-easing: cubic-bezier(0.4, 0, 0.2, 1); // Material-style ease out
+$exit-easing: cubic-bezier(0.55, 0, 1, 0.45); // Accelerate off screen
+
+$envelope-color-bg: #3e2957;
+$envelope-color-flap: lighten($color-primary, 5%); //
+$envelope-color-bottom: darken($color-primary, 3%); // bottom
+$envelope-color-sides: $color-primary; // Sides
+
+// ======================== ENVELOPE OVERLAY ========================
+
+.envelope {
+  position: fixed;
+  inset: 0;
+  z-index: 1000; // Above navbar(100), mobile menu(200), burger(300)
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $envelope-color-bg;
+  cursor: pointer;
+  // 3D perspective for the flap rotation — applied to container so children inherit
+  perspective: 1200px;
+  // ENHANCEMENT: Add a subtle radial gradient, vignette, or particle effect to the backdrop
+  transition: background-color 0.5s ease;
+
+  &--exiting {
+    background-color: transparent;
+    pointer-events: none;
+  }
+}
+
+// ======================== ENVELOPE BODY ========================
+
+.envelope__body {
+  position: relative;
+  width: 90vw;
+  height: 60vw;
+  max-width: 715px;
+  max-height: 494px;
+  // ENHANCEMENT: Add a subtle drop-shadow for depth: filter: drop-shadow(...)
+
+  -webkit-box-shadow: 5px 5px 40px 9px rgba(0, 0, 0, 0.171);
+  box-shadow: 5px 5px 40px 9px rgba(0, 0, 0, 0.171);
+
+  // Exit: slide the whole envelope down off screen
+  transition: transform $exit-duration $exit-easing;
+
+  .envelope--exiting & {
+    transform: translateY(100vh);
+    // ENHANCEMENT: Add a slight rotation during exit for a more playful feel
+    // e.g. transform: translateY(100vh) rotate(5deg);
+  }
+}
+
+// ======================== INNER WRAPPER (clips the letter) ========================
+
+.envelope__inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 4px;
+
+  // Once the flap is open, allow the letter to slide up and be visible above the envelope
+  .envelope--revealing &,
+  .envelope--exiting & {
+    overflow: visible;
+  }
+}
+
+// ======================== BACK PANEL ========================
+
+.envelope__back {
+  position: absolute;
+  inset: 0;
+  background-color: $envelope-color-flap;
+  // ENHANCEMENT: Add a subtle inner shadow or linen paper texture
+  // e.g. background-image: url(...); or box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+}
+
+.envelope__sides {
+  position: absolute;
+  inset: 0;
+  background-color: $envelope-color-sides;
+  z-index: 3;
+  clip-path: polygon(50% 50%, 100% 0, 100% 100%, 0 100%, 0 0);
+
+  // ENHANCEMENT: Add a subtle inner shadow or linen paper texture
+  // e.g. background-image: url(...); or box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+}
+
+// ======================== LETTER ========================
+
+.envelope__letter {
+  position: absolute;
+  top: 8%;
+  left: 6%;
+  right: 6%;
+  bottom: 8%;
+  background-color: $color-bg;
+  border-radius: 2px;
+  z-index: 2; // Between back and front
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Slide up animation — the letter emerges from the envelope
+  // ENHANCEMENT: Add rotation or scale during the slide for a more dynamic feel
+  // e.g. transform: translateY(...) rotate(-2deg) scale(1.02);
+  transition:
+    transform $letter-duration $letter-easing,
+    z-index 0s,
+    opacity $letter-duration $letter-easing calc($letter-duration * 1.2);
+
+  .envelope--revealing &,
+  .envelope--exiting & {
+    // Slide fully above the envelope — visible because __inner switches to overflow:visible
+    transform: translateY(calc(-100% - 4em));
+    // opacity: 0;
+  }
+}
+
+// ======================== FRONT PANEL (trapezoid covering bottom of letter) ========================
+
+.envelope__front {
+  position: absolute;
+  inset: 0;
+  background-color: $envelope-color-bottom;
+  // Trapezoid shape: point at center-top, full width at bottom
+  clip-path: polygon(0% 100%, 50% 35%, 100% 100%);
+  z-index: 3; // Above the letter
+  // ENHANCEMENT: Add a subtle gradient or linen texture overlay
+}
+
+// ======================== FLAP (triangular top — 3D rotation) ========================
+
+.envelope__flap {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  // Height matches the envelope body so the triangle can reach past center
+  height: 100%;
+  background-color: $envelope-color-flap;
+  // Triangle: full width at top, point at center
+  clip-path: polygon(0% 0%, 50% 55%, 100% 0%);
+  // Rotate from the top edge for the "fold open" effect
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition:
+    transform $flap-duration $flap-easing,
+    z-index 0s linear calc($flap-duration * 0.5); // Change z-index halfway through flap animation
+  z-index: 4; // Above everything when closed
+  // ENHANCEMENT: Add a shadow that moves/grows as the flap rotates open
+  // e.g. filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+
+  .envelope--opening &,
+  .envelope--revealing &,
+  .envelope--exiting & {
+    transform: rotateX(180deg);
+    z-index: 1; // Once open, flap drops behind
+  }
+}
+
+// ======================== SEAL (heart icon) ========================
+
+.envelope__seal {
+  position: absolute;
+  // Position at the tip of the flap triangle (~55% down, centered)
+  top: calc(55%);
+  left: 50%;
+  transform: translateX(-50%) translateY(-60%);
+  z-index: 5; // On top of flap
+  font-size: 4.75em;
+  color: $color-accent;
+  transition: opacity 0.3s ease;
+  // ENHANCEMENT: Replace with an SVG wax seal with embossed couple's initials
+  // ENHANCEMENT: Add a scale-bounce animation on hover for interactivity
+
+  .envelope--opening &,
+  .envelope--revealing &,
+  .envelope--exiting & {
+    opacity: 0;
+  }
+}
+
+// ======================== RESPONSIVE ========================
+
+@media (max-width: $breakpoint-mobile) {
+  .envelope__body {
+    width: 92vw;
+    height: 65vw;
+  }
+
+  .envelope__seal {
+    font-size: 1.4em;
+  }
+
+  .envelope__letter-names {
+    font-size: 2em;
+  }
+}

@@ -57,6 +57,13 @@
   }
 }
 
+// Hidden state — used while the envelope intro is playing
+.navbar--hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.5s ease;
+}
+
 // Burger button (standalone, outside navbar stacking context)
 .navbar-burger {
   display: none;

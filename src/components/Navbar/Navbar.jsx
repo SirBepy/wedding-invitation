@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { id: "faqs", label: "FAQs" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ hidden = false }) {
   const [activeSection, setActiveSection] = useState("landing");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -39,7 +39,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="navbar">
+      <nav className={`navbar ${hidden ? "navbar--hidden" : ""}`}>
         <a
           href="#landing"
           className={`navbar__logo font-decorative2 ${activeSection === "landing" ? "navbar__logo--active" : ""}`}
@@ -65,7 +65,7 @@ export default function Navbar() {
       </nav>
 
       <button
-        className={`navbar-burger ${menuOpen ? "navbar-burger--open" : ""}`}
+        className={`navbar-burger ${hidden ? "navbar--hidden" : ""} ${menuOpen ? "navbar-burger--open" : ""}`}
         aria-label="Toggle menu"
         onClick={toggleMenu}
       >

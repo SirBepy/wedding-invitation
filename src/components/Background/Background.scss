@@ -3,10 +3,15 @@
 // ======================== SHARED LAYERS ========================
 
 // Both containers are fixed, full-viewport, non-interactive, behind all page content
+// Uses 100svh (small viewport height) instead of bottom:0 so that mobile browser
+// chrome showing/hiding doesn't cause the container to resize and shift corner flowers.
 .bg,
 .bg-corners {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100svh;
   z-index: -1;
   pointer-events: none;
 }
