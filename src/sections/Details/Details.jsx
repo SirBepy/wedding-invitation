@@ -3,9 +3,7 @@ import "./Details.scss";
 const items = [
   ["Dress Code", "Formal"],
   ["Location", "Outdoor"],
-  ["Parking", "Parking available at Hotel Storia"],
-  ["Transportation", "Shuttle Bus offered to church if preferred"],
-  ["Nearest Airports", "Mostar or Split"],
+  ["Parking", "Free parking at Hotel Storia"],
 ];
 
 export default function Details() {

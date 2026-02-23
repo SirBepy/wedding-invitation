@@ -9,6 +9,10 @@ const faqCategories = [
         q: "Can I bring a plus one?",
         a: "Please check with us on whatsapp before you RSVP to confirm if you can bring a plus one.",
       },
+      {
+        q: "Will there be transportation available while in Medugorje?",
+        a: "We will organise a shuttle bus for the day of the wedding for any guests who do not have access to a car.",
+      },
     ],
   },
   {
@@ -25,10 +29,6 @@ const faqCategories = [
       {
         q: "If I fly through Split, how do I get to Medugorje?",
         a: "You can catch a bus from Split to Medugorje. If there are enough SA guests coming through Split, we can try to organise a shuttle bus to pick the lot of you up and bring you to Medugorje.",
-      },
-      {
-        q: "Will there be transportation available while in Medugorje?",
-        a: "We will organise a shuttle bus for the day of the wedding for any guests who do not have access to a car.",
       },
       {
         q: "What touristic activities can I do while in Croatia and Hercegovina?",
