@@ -5,6 +5,7 @@
 // These should match the TIMINGS object in Envelope.jsx
 $flap-duration: 0.8s;
 $letter-duration: 0.9s;
+$petal-delay: 0.1s; // How long after letter starts moving before petals burst
 $exit-duration: 0.8s;
 
 // Easing curves
@@ -182,7 +183,7 @@ $envelope-color-sides: $color-primary; // Sides
     transform: translateX(-50%);
   }
   100% {
-    transform: translateX(-05%);
+    transform: translateX(50%);
   }
 }
 
@@ -192,7 +193,7 @@ $envelope-color-sides: $color-primary; // Sides
   }
   35% {
     // Peak of the throw — hangs in the air
-    transform: translateY(-130%) rotate(10deg);
+    transform: translateY(-130%) rotate(20deg);
   }
   100% {
     // Falls down off screen
@@ -227,6 +228,106 @@ $envelope-color-sides: $color-primary; // Sides
     }
   }
 }
+
+// ======================== PETALS (rest on letter, burst on reveal) ========================
+// 3 nested elements split X / Y / rotation for independent easing (same pattern as the seal).
+// Outer: X burst (ease-out = fast burst, decelerates) + z-index step
+// Middle: Y arc (ease-in = hangs at peak, accelerates down — like a thrown ball)
+// Inner img: rotation (linear)
+
+// Horizontal burst — fast outward, then decelerates
+@keyframes petal-x {
+  0% {
+    transform: translateX(var(--petal-x));
+  }
+  100% {
+    transform: translateX(calc(var(--petal-x) + var(--petal-burst-x)));
+  }
+}
+
+// Vertical arc — kick up to peak, hang, then accelerate down off screen
+@keyframes petal-y {
+  0% {
+    transform: translateY(var(--petal-y));
+  }
+  20% {
+    // Peak — floats here momentarily thanks to ease-in timing
+    transform: translateY(calc(var(--petal-y) + var(--petal-peak-y)));
+  }
+  100% {
+    // Fall off screen (100vh from envelope top = always past viewport bottom)
+    transform: translateY(100vh);
+  }
+}
+
+// Z-index step — start behind envelope, pop to front once falling
+@keyframes petal-z {
+  0%,
+  19% {
+    z-index: 2;
+  }
+  20%,
+  100% {
+    z-index: 6;
+  }
+}
+
+@keyframes petal-spin {
+  from {
+    transform: rotate(var(--petal-rot-from));
+  }
+  to {
+    transform: rotate(var(--petal-rot-to));
+  }
+}
+
+.envelope__petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2; // Same as letter — DOM order puts petals on top, but under sides/front (z3)
+  overflow: visible;
+}
+
+// Outer: resting position + X burst + z-index step
+.envelope__petal {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  // Resting position
+  transform: translateX(var(--petal-x));
+
+  .envelope--revealing &,
+  .envelope--exiting & {
+    animation:
+      petal-x var(--petal-duration) ease-out calc($petal-delay + var(--petal-delay)) forwards,
+      petal-z var(--petal-duration) step-end calc($petal-delay + var(--petal-delay)) forwards;
+  }
+}
+
+// Middle: Y arc (ease-in = slow at peak, accelerates into fall)
+.envelope__petal-y {
+  transform: translateY(var(--petal-y));
+
+  .envelope--revealing &,
+  .envelope--exiting & {
+    animation: petal-y var(--petal-duration) ease-in
+      calc($petal-delay + var(--petal-delay)) forwards;
+  }
+}
+
+// Inner: rotation
+.envelope__petal img {
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform: rotate(var(--petal-rot-from));
+
+  .envelope--revealing &,
+  .envelope--exiting & {
+    animation: petal-spin var(--petal-duration) linear
+      calc($petal-delay + var(--petal-delay)) forwards;
   }
 }
 

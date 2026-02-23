@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./Envelope.scss";
 
 // ======================== CONFIGURATION ========================
@@ -6,16 +6,86 @@ import "./Envelope.scss";
 const AUTO_OPEN_DELAY = 500000;
 
 // Animation durations (ms) — tweak these to adjust the feel
+// All timing lives here so you can tune the entire sequence from one place
 const TIMINGS = {
   flapDuration: 800, // How long the flap takes to rotate open
-  revealOverlap: 300, // Start revealing slightly before flap finishes (smoother)
+  revealOverlap: 300, // Start letter slide slightly before flap finishes (smoother feel)
+  revealPause: 0, // Extra pause after flap opens before letter moves (try 300–600 for a beat)
   letterDuration: 900, // How long the letter slides up
+  petalDelay: 100, // How long after letter starts moving before petals burst
   exitDuration: 800, // How long the envelope slides off-screen
 };
+
+// ======================== PETALS ========================
+const BASE = import.meta.env.BASE_URL;
+const PETAL_IMAGES = Array.from(
+  { length: 8 },
+  (_, i) => `${BASE}icons/petals/img${i + 1}.png`,
+);
+
+const PETALS = {
+  count: 38,
+  minSize: 40, // % of envelope width (relative sizing)
+  maxSize: 60, // % of envelope width
+  restingY: 200, // % from top — vertical center of the petal cluster
+  spreadY: 12, // ±% random scatter around restingY
+  spreadX: 100, // total horizontal spread (% of envelope width, centered)
+  minDuration: 1.6, // seconds — total animation time
+  maxDuration: 2.0, // seconds
+  maxDelay: 0.4, // seconds — stagger window
+  burstUp: 205, // % of envelope height the petals kick upward at the peak
+};
+
+// TODO: bring back the petals
+function generatePetals() {
+  // return Array.from({ length: PETALS.count }, (_, i) => {
+  //   const src = PETAL_IMAGES[Math.floor(Math.random() * PETAL_IMAGES.length)];
+  //   const size =
+  //     PETALS.minSize + Math.random() * (PETALS.maxSize - PETALS.minSize);
+  //   const duration =
+  //     PETALS.minDuration +
+  //     Math.random() * (PETALS.maxDuration - PETALS.minDuration);
+  //   const delay = Math.random() * PETALS.maxDelay;
+
+  //   // Resting position: scattered around center of envelope
+  //   const halfSpread = PETALS.spreadX / 2;
+  //   const startX = -halfSpread + Math.random() * PETALS.spreadX; // % from center (left:50%)
+  //   const startY = PETALS.restingY + (Math.random() - 0.5) * 2 * PETALS.spreadY;
+
+  //   // Burst direction: left-of-center petals fly RIGHT, right-of-center fly LEFT
+  //   const burstDir = startX < 0 ? 1 : -1;
+  //   const burstX = burstDir * (30 + Math.random() * 60); // % horizontal burst
+
+  //   // Peak height: how far up they kick before falling
+  //   const peakY = -(PETALS.burstUp * (0.7 + Math.random() * 0.6)); // % upward from start
+
+  //   // Rotation
+  //   const rotFrom = Math.random() * 360;
+  //   const rotTo =
+  //     rotFrom + (Math.random() > 0.5 ? 1 : -1) * (90 + Math.random() * 270);
+
+  //   return {
+  //     id: i,
+  //     src,
+  //     size: +size.toFixed(1),
+  //     duration: +duration.toFixed(2),
+  //     delay: +delay.toFixed(2),
+  //     startX: +startX.toFixed(1),
+  //     startY: +startY.toFixed(1),
+  //     burstX: +burstX.toFixed(1),
+  //     peakY: +peakY.toFixed(1),
+  //     rotFrom: Math.round(rotFrom),
+  //     rotTo: Math.round(rotTo),
+  //     opacity: +(0.5 + Math.random() * 0.5).toFixed(2),
+  //   };
+  // });
+  return [];
+}
 
 export default function Envelope({ onComplete }) {
   // Phase flow: "closed" → "opening" → "revealing" → "exiting" → onComplete()
   const [phase, setPhase] = useState("closed");
+  const petals = useMemo(generatePetals, []);
 
   // Lock scrolling while envelope is mounted, and reset scroll position
   useEffect(() => {
@@ -37,25 +107,20 @@ export default function Envelope({ onComplete }) {
     if (phase !== "closed") return;
     setPhase("opening");
 
-    // Start revealing the letter slightly before flap finishes for smooth overlap
-    setTimeout(
-      () => setPhase("revealing"),
-      TIMINGS.flapDuration - TIMINGS.revealOverlap,
-    );
+    // When the letter starts moving (flap nearly done + optional pause)
+    const revealAt =
+      TIMINGS.flapDuration - TIMINGS.revealOverlap + TIMINGS.revealPause;
+
+    // Start revealing the letter (+ petals burst shortly after via petalDelay in CSS)
+    setTimeout(() => setPhase("revealing"), revealAt);
 
     // After letter has slid up, start the exit
-    setTimeout(
-      () => setPhase("exiting"),
-      TIMINGS.flapDuration + TIMINGS.letterDuration - TIMINGS.revealOverlap,
-    );
+    setTimeout(() => setPhase("exiting"), revealAt + TIMINGS.letterDuration);
 
     // After exit animation, unmount
     setTimeout(
       () => onComplete(),
-      TIMINGS.flapDuration +
-        TIMINGS.letterDuration +
-        TIMINGS.exitDuration -
-        TIMINGS.revealOverlap,
+      revealAt + TIMINGS.letterDuration + TIMINGS.exitDuration,
     );
   }
 
@@ -72,6 +137,40 @@ export default function Envelope({ onComplete }) {
               <h1>You're Invited</h1>
             </div>
           </div>
+
+          {/* Petals sit on top of the letter, under the sides/front.
+              Visible once the flap opens, then burst out during revealing. */}
+          {/* Petals: 3 nested divs split X / Y / rotation for independent easing
+              Outer .envelope__petal — positioned at rest, handles X burst + z-index step
+              Middle .envelope__petal-y — handles Y arc (up then down, parabolic)
+              Inner img — handles spin */}
+          <div className="envelope__petals">
+            {petals.map((p) => (
+              <div
+                key={p.id}
+                className="envelope__petal"
+                style={{
+                  "--petal-x": `${p.startX}%`,
+                  "--petal-y": `${p.startY}%`,
+                  "--petal-burst-x": `${p.burstX}%`,
+                  "--petal-peak-y": `${p.peakY}%`,
+                  "--petal-duration": `${p.duration}s`,
+                  "--petal-delay": `${p.delay}s`,
+                  "--petal-rot-from": `${p.rotFrom}deg`,
+                  "--petal-rot-to": `${p.rotTo}deg`,
+                }}
+              >
+                <div className="envelope__petal-y">
+                  <img
+                    src={p.src}
+                    alt=""
+                    style={{ width: `${p.size}%`, opacity: p.opacity }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="envelope__front" />
         </div>
 
