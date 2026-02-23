@@ -17,8 +17,9 @@ export default function Envelope({ onComplete }) {
   // Phase flow: "closed" → "opening" → "revealing" → "exiting" → onComplete()
   const [phase, setPhase] = useState("closed");
 
-  // Lock scrolling while envelope is mounted
+  // Lock scrolling while envelope is mounted, and reset scroll position
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
