@@ -12,19 +12,23 @@
 
   .faqs-container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     margin-top: 2em;
-    gap: 2em;
   }
 
-  // Left side — category buttons
+  // Category tabs row
   .faqs-categories {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    gap: 1em;
-    min-width: 10em;
-    transition: all 0.2s;
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .faqs-categories__item {
@@ -34,11 +38,12 @@
     font-size: 1.5rem;
     color: $color-primary;
     opacity: 0.4;
-    text-align: right;
-    padding: 0.4em 0;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0.6em 1.2em calc(0.6em + 3px); // extra bottom padding reserves space for indicator
     transition: opacity 0.3s;
     font-weight: 900;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
 
     &:hover {
       opacity: 0.7;
@@ -49,105 +54,103 @@
     }
   }
 
-  // Vertical divider
-  .faqs-divider {
-    width: 2px;
-    background-color: $color-primary;
-    opacity: 0.3;
-    flex-shrink: 0;
+  // Sliding indicator bar — positioned absolutely inside .faqs-categories
+  .faqs-indicator {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    background-color: $color-accent;
+    border-radius: 2px;
+    transition: left 0.3s ease, width 0.3s ease;
   }
 
-  // Right side — questions
+  // Questions — all groups rendered in a CSS grid stack so the container
+  // always sizes to the tallest group, preventing height jumps on category switch.
   .faqs-questions {
-    flex: 1;
+    display: grid;
+    margin-top: 1.5em;
   }
 
   .faqs-questions__group {
-    display: none;
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    visibility: hidden;
+    pointer-events: none;
 
     &--active {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8em;
+      visibility: visible;
+      pointer-events: auto;
     }
   }
 
   .faqs-questions__item {
-    summary {
-      cursor: pointer;
-      list-style: none;
+    border-bottom: 1px solid rgba($color-primary, 0.15);
+    padding-bottom: 0.6em;
 
-      &::-webkit-details-marker {
-        display: none;
-      }
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
     }
 
-    &:not([open]) .faqs-questions__question {
-      opacity: 0.3;
+    &--open {
+      .faqs-questions__question {
+        opacity: 1;
+      }
+
+      .faqs-questions__arrow {
+        transform: rotate(-135deg);
+      }
     }
   }
 
   .faqs-questions__question {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    padding: 0;
+    text-align: left;
     font-size: 1.2rem;
     color: $color-primary;
-    opacity: 1;
+    opacity: 0.4;
     transition: opacity 0.3s;
     letter-spacing: 0.15em;
     font-weight: 600;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .faqs-questions__arrow {
+    flex-shrink: 0;
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.25s ease;
+    margin-bottom: 0.1em; // visual centering of the chevron shape
   }
 
   .faqs-questions__answer {
     font-size: 1.1rem;
-    color: $color-primary-var2;
-    // font:
-    margin-top: 0.4em;
+    color: $color-primary;
+    margin-top: 0.6em;
     letter-spacing: 0;
     font-family: "Noto Serif", serif;
-  }
 
-  @media (max-width: $breakpoint-mobile) {
-    .faqs-container {
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .faqs-categories {
-      flex-direction: row;
-      overflow-x: auto;
-      gap: 0;
-      min-width: unset;
-      border-bottom: 2px solid rgba($color-primary, 0.15);
-      padding-bottom: 0;
-      justify-content: flex-start;
-      scrollbar-width: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    .faqs-categories__item {
-      font-size: 0.95rem;
-      text-align: center;
-      white-space: nowrap;
-      opacity: 0.4;
-      padding: 0.6em 1.2em;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-      letter-spacing: 0.08em;
-
-      &--active {
-        opacity: 1;
-        border-bottom-color: $color-accent;
-      }
-    }
-
-    .faqs-divider {
-      display: none;
-    }
-
-    .faqs-questions {
-      margin-top: 1.5em;
+    a {
+      letter-spacing: 0;
+      font-weight: bold;
+      text-decoration: underline;
     }
   }
 }

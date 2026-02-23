@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import "./Faqs.scss";
 
 const faqCategories = [
@@ -40,6 +40,26 @@ const faqCategories = [
 
 export default function Faqs() {
   const [activeCategory, setActiveCategory] = useState(0);
+  const [openQuestion, setOpenQuestion] = useState(null);
+  const [indicatorStyle, setIndicatorStyle] = useState(null);
+
+  const categoryRefs = useRef([]);
+
+  useLayoutEffect(() => {
+    const btn = categoryRefs.current[activeCategory];
+    if (btn) {
+      setIndicatorStyle({ left: btn.offsetLeft, width: btn.offsetWidth });
+    }
+  }, [activeCategory]);
+
+  function handleCategoryChange(i) {
+    setActiveCategory(i);
+    setOpenQuestion(null);
+  }
+
+  function toggleQuestion(q) {
+    setOpenQuestion((prev) => (prev === q ? null : q));
+  }
 
   return (
     <section id="faqs" className="section">
@@ -50,12 +70,24 @@ export default function Faqs() {
             {faqCategories.map((cat, i) => (
               <button
                 key={cat.name}
+                ref={(el) => {
+                  categoryRefs.current[i] = el;
+                }}
                 className={`faqs-categories__item font-text ${i === activeCategory ? "faqs-categories__item--active" : ""}`}
-                onClick={() => setActiveCategory(i)}
+                onClick={() => handleCategoryChange(i)}
               >
                 {cat.name}
               </button>
             ))}
+            {indicatorStyle && (
+              <div
+                className="faqs-indicator"
+                style={{
+                  left: indicatorStyle.left,
+                  width: indicatorStyle.width,
+                }}
+              />
+            )}
           </div>
           <div className="faqs-divider"></div>
           <div className="faqs-questions">
@@ -64,14 +96,29 @@ export default function Faqs() {
                 key={cat.name}
                 className={`faqs-questions__group ${i === activeCategory ? "faqs-questions__group--active" : ""}`}
               >
-                {cat.questions.map((faq) => (
-                  <details key={faq.q} className="faqs-questions__item">
-                    <summary className="faqs-questions__question font-text">
-                      {faq.q}
-                    </summary>
-                    <p className="faqs-questions__answer font-text">{faq.a}</p>
-                  </details>
-                ))}
+                {cat.questions.map((faq) => {
+                  const isOpen = openQuestion === faq.q;
+                  return (
+                    <div
+                      key={faq.q}
+                      className={`faqs-questions__item ${isOpen ? "faqs-questions__item--open" : ""}`}
+                    >
+                      <button
+                        className="faqs-questions__question font-text"
+                        onClick={() => toggleQuestion(faq.q)}
+                      >
+                        <span>{faq.q}</span>
+                        <span className="faqs-questions__arrow"></span>
+                      </button>
+                      {isOpen && (
+                        <p
+                          className="faqs-questions__answer font-text"
+                          dangerouslySetInnerHTML={{ __html: faq.a }}
+                        ></p>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
