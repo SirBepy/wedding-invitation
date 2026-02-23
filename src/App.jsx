@@ -9,17 +9,32 @@ import Faqs from "./sections/Faqs/Faqs";
 import Rsvp from "./sections/Rsvp/Rsvp";
 import "./build-info";
 
+// App animation phases:
+// "envelope"  — Envelope is running its internal animation. Background hidden.
+// "blending"  — Envelope letter fading out, background fading in.
+// "revealing" — Envelope unmounted. Landing content stagger begins.
+// "done"      — Landing stagger complete. Navbar appears.
+
 export default function App() {
-  const [envelopeDone, setEnvelopeDone] = useState(false);
+  const [appPhase, setAppPhase] = useState("envelope");
+
+  const showEnvelope = appPhase === "envelope" || appPhase === "blending";
+  const showLandingReveal = appPhase === "revealing" || appPhase === "done";
 
   return (
     <>
-      <Background />
-      {!envelopeDone && (
-        <Envelope onComplete={() => setEnvelopeDone(true)} />
+      <Background hidden={appPhase === "envelope"} />
+      {showEnvelope && (
+        <Envelope
+          onBlend={() => setAppPhase("blending")}
+          onComplete={() => setAppPhase("revealing")}
+        />
       )}
-      <Navbar hidden={!envelopeDone} />
-      <Landing />
+      <Navbar hidden={appPhase !== "done"} />
+      <Landing
+        reveal={showLandingReveal}
+        onRevealDone={() => setAppPhase("done")}
+      />
       <Details />
       <Timeline />
       <Faqs />

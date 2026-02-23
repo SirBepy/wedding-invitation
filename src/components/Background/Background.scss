@@ -14,6 +14,11 @@
   height: 100svh;
   z-index: -1;
   pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.bg--hidden {
+  opacity: 0;
 }
 
 // Falling flowers layer — clips flowers that drift outside viewport edges

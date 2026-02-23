@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import "./Envelope.scss";
 
 // ======================== CONFIGURATION ========================
@@ -14,6 +14,9 @@ const TIMINGS = {
   letterDuration: 900, // How long the letter slides up
   petalDelay: 100, // How long after letter starts moving before petals burst
   exitDuration: 800, // How long the envelope slides off-screen
+  expandDelay: 100, // Pause after envelope exits before letter starts expanding
+  expandDuration: 600, // How long the letter takes to scale to full viewport
+  blendDuration: 400, // How long the letter overlay takes to fade out
 };
 
 // ======================== PETALS ========================
@@ -38,54 +41,17 @@ const PETALS = {
 
 // TODO: bring back the petals
 function generatePetals() {
-  // return Array.from({ length: PETALS.count }, (_, i) => {
-  //   const src = PETAL_IMAGES[Math.floor(Math.random() * PETAL_IMAGES.length)];
-  //   const size =
-  //     PETALS.minSize + Math.random() * (PETALS.maxSize - PETALS.minSize);
-  //   const duration =
-  //     PETALS.minDuration +
-  //     Math.random() * (PETALS.maxDuration - PETALS.minDuration);
-  //   const delay = Math.random() * PETALS.maxDelay;
-
-  //   // Resting position: scattered around center of envelope
-  //   const halfSpread = PETALS.spreadX / 2;
-  //   const startX = -halfSpread + Math.random() * PETALS.spreadX; // % from center (left:50%)
-  //   const startY = PETALS.restingY + (Math.random() - 0.5) * 2 * PETALS.spreadY;
-
-  //   // Burst direction: left-of-center petals fly RIGHT, right-of-center fly LEFT
-  //   const burstDir = startX < 0 ? 1 : -1;
-  //   const burstX = burstDir * (30 + Math.random() * 60); // % horizontal burst
-
-  //   // Peak height: how far up they kick before falling
-  //   const peakY = -(PETALS.burstUp * (0.7 + Math.random() * 0.6)); // % upward from start
-
-  //   // Rotation
-  //   const rotFrom = Math.random() * 360;
-  //   const rotTo =
-  //     rotFrom + (Math.random() > 0.5 ? 1 : -1) * (90 + Math.random() * 270);
-
-  //   return {
-  //     id: i,
-  //     src,
-  //     size: +size.toFixed(1),
-  //     duration: +duration.toFixed(2),
-  //     delay: +delay.toFixed(2),
-  //     startX: +startX.toFixed(1),
-  //     startY: +startY.toFixed(1),
-  //     burstX: +burstX.toFixed(1),
-  //     peakY: +peakY.toFixed(1),
-  //     rotFrom: Math.round(rotFrom),
-  //     rotTo: Math.round(rotTo),
-  //     opacity: +(0.5 + Math.random() * 0.5).toFixed(2),
-  //   };
-  // });
   return [];
 }
 
-export default function Envelope({ onComplete }) {
-  // Phase flow: "closed" → "opening" → "revealing" → "exiting" → onComplete()
+export default function Envelope({ onBlend, onComplete }) {
+  // Phase flow: "closed" → "opening" → "revealing" → "exiting" → "expanding" → "blending" → onComplete()
   const [phase, setPhase] = useState("closed");
   const petals = useMemo(generatePetals, []);
+  const letterRef = useRef(null);
+  const [letterRect, setLetterRect] = useState(null);
+
+  const isDetached = ["exiting", "expanding", "blending"].includes(phase);
 
   // Lock scrolling while envelope is mounted, and reset scroll position
   useEffect(() => {
@@ -114,14 +80,35 @@ export default function Envelope({ onComplete }) {
     // Start revealing the letter (+ petals burst shortly after via petalDelay in CSS)
     setTimeout(() => setPhase("revealing"), revealAt);
 
-    // After letter has slid up, start the exit
-    setTimeout(() => setPhase("exiting"), revealAt + TIMINGS.letterDuration);
+    // Snapshot letter rect and start exit (body slides down, letter stays)
+    const exitAt = revealAt + TIMINGS.letterDuration;
+    setTimeout(() => {
+      if (letterRef.current) {
+        const rect = letterRef.current.getBoundingClientRect();
+        setLetterRect({
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height,
+        });
+      }
+      setPhase("exiting");
+    }, exitAt);
 
-    // After exit animation, unmount
-    setTimeout(
-      () => onComplete(),
-      revealAt + TIMINGS.letterDuration + TIMINGS.exitDuration,
-    );
+    // After envelope body has slid off, start expanding the letter
+    const expandAt = exitAt + TIMINGS.exitDuration + TIMINGS.expandDelay;
+    setTimeout(() => setPhase("expanding"), expandAt);
+
+    // After letter has expanded, start blending (fade out letter, fade in bg)
+    const blendAt = expandAt + TIMINGS.expandDuration;
+    setTimeout(() => {
+      setPhase("blending");
+      onBlend();
+    }, blendAt);
+
+    // After blend completes, tell App we're done
+    const doneAt = blendAt + TIMINGS.blendDuration;
+    setTimeout(() => onComplete(), blendAt);
   }
 
   return (
@@ -131,12 +118,13 @@ export default function Envelope({ onComplete }) {
         <div className="envelope__inner">
           <div className="envelope__back" />
           <div className="envelope__sides" />
-          <div className="envelope__letter">
-            {/* ENHANCEMENT: Add more decorative content — borders, monogram, ornaments */}
-            <div className="envelope__letter-content">
-              <h1>You're Invited</h1>
+
+          {/* Letter inside body only during early phases */}
+          {!isDetached && (
+            <div ref={letterRef} className="envelope__letter">
+              <div className="envelope__letter-content" />
             </div>
-          </div>
+          )}
 
           {/* Petals sit on top of the letter, under the sides/front.
               Visible once the flap opens, then burst out during revealing. */}
@@ -183,6 +171,25 @@ export default function Envelope({ onComplete }) {
           />
         </div>
       </div>
+
+      {/* Detached letter — positioned fixed, outside envelope body */}
+      {isDetached && letterRect && (
+        <div
+          className={`envelope__letter envelope__letter--detached ${
+            ["expanding", "blending"].includes(phase)
+              ? "envelope__letter--expanded"
+              : ""
+          } ${phase === "blending" ? "envelope__letter--fading" : ""}`}
+          style={{
+            "--letter-top": `${letterRect.top}px`,
+            "--letter-left": `${letterRect.left}px`,
+            "--letter-width": `${letterRect.width}px`,
+            "--letter-height": `${letterRect.height}px`,
+          }}
+        >
+          <div className="envelope__letter-content" />
+        </div>
+      )}
 
       {/* ENHANCEMENT: Add a "Tap to open" text hint that fades out on click */}
     </div>

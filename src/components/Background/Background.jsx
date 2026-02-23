@@ -182,7 +182,7 @@ function generateFallingFlowers() {
 
 // ======================== COMPONENT ========================
 
-export default function Background() {
+export default function Background({ hidden = false }) {
   const [flowers, setFlowers] = useState(generateFallingFlowers);
 
   useEffect(() => {
@@ -200,7 +200,7 @@ export default function Background() {
 
   return (
     <>
-      <div className="bg">
+      <div className={`bg ${hidden ? "bg--hidden" : ""}`}>
         {flowers.map((f) => (
           // All CSS custom properties set on the outermost div and inherited by all children
           <div
@@ -255,7 +255,7 @@ export default function Background() {
         ))}
       </div>
 
-      <div className="bg-corners">
+      <div className={`bg-corners ${hidden ? "bg--hidden" : ""}`}>
         <div className="bg-corner bg-corner--left">
           {CORNER_LEFT.map((flower, i) => (
             <img

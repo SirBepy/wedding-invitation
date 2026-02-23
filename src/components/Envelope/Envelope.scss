@@ -7,11 +7,14 @@ $flap-duration: 0.8s;
 $letter-duration: 0.9s;
 $petal-delay: 0.1s; // How long after letter starts moving before petals burst
 $exit-duration: 0.8s;
+$expand-duration: 0.6s;
+$blend-duration: 0.4s;
 
 // Easing curves
 $flap-easing: cubic-bezier(0.6, 0, 0.4, 1); // Smooth deceleration for flap
 $letter-easing: cubic-bezier(0.4, 0, 0.2, 1); // Material-style ease out
 $exit-easing: cubic-bezier(0.55, 0, 1, 0.45); // Accelerate off screen
+$expand-easing: cubic-bezier(0.4, 0, 0.2, 1); // Material-style ease out
 
 $envelope-color-bg: #3e2957;
 $envelope-color-flap: color.adjust($color-primary, $lightness: 5%); //
@@ -34,8 +37,9 @@ $envelope-color-sides: $color-primary; // Sides
   // ENHANCEMENT: Add a subtle radial gradient, vignette, or particle effect to the backdrop
   transition: background-color 0.5s ease;
 
-  &--exiting {
-    background-color: transparent;
+  &--exiting,
+  &--expanding,
+  &--blending {
     pointer-events: none;
   }
 }
@@ -56,10 +60,10 @@ $envelope-color-sides: $color-primary; // Sides
   // Exit: slide the whole envelope down off screen
   transition: transform $exit-duration $exit-easing;
 
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     transform: translateY(100vh);
-    // ENHANCEMENT: Add a slight rotation during exit for a more playful feel
-    // e.g. transform: translateY(100vh) rotate(5deg);
   }
 }
 
@@ -73,7 +77,9 @@ $envelope-color-sides: $color-primary; // Sides
 
   // Once the flap is open, allow the letter to slide up and be visible above the envelope
   .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     overflow: visible;
   }
 }
@@ -122,12 +128,45 @@ $envelope-color-sides: $color-primary; // Sides
     z-index 0s,
     opacity $letter-duration $letter-easing calc($letter-duration * 1.2);
 
-  .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--revealing & {
     // Slide fully above the envelope — visible because __inner switches to overflow:visible
     transform: translateY(calc(-100% - 4em));
-    // opacity: 0;
   }
+}
+
+// Detached letter — position:fixed outside envelope body, expands to fill viewport
+.envelope__letter--detached {
+  position: fixed;
+  top: var(--letter-top);
+  left: var(--letter-left);
+  width: var(--letter-width);
+  height: var(--letter-height);
+  right: auto;
+  bottom: auto;
+  z-index: 999;
+  transform: none;
+  box-shadow: 5px 5px 40px 9px rgba(0, 0, 0, 0.171);
+  transition:
+    top $expand-duration $expand-easing,
+    left $expand-duration $expand-easing,
+    width $expand-duration $expand-easing,
+    height $expand-duration $expand-easing,
+    border-radius $expand-duration $expand-easing,
+    box-shadow $expand-duration $expand-easing,
+    opacity $blend-duration ease;
+}
+
+.envelope__letter--expanded {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.envelope__letter--fading {
+  opacity: 0;
 }
 
 // ======================== FRONT PANEL (trapezoid covering bottom of letter) ========================
@@ -166,7 +205,9 @@ $envelope-color-sides: $color-primary; // Sides
 
   .envelope--opening &,
   .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     transform: rotateX(180deg);
     z-index: 1; // Once open, flap drops behind
   }
@@ -218,7 +259,9 @@ $envelope-color-sides: $color-primary; // Sides
 
   .envelope--opening &,
   .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     // Outer: horizontal drift + rotation (linear)
     animation: seal-x 1s linear forwards;
 
@@ -299,10 +342,14 @@ $envelope-color-sides: $color-primary; // Sides
   transform: translateX(var(--petal-x));
 
   .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     animation:
-      petal-x var(--petal-duration) ease-out calc($petal-delay + var(--petal-delay)) forwards,
-      petal-z var(--petal-duration) step-end calc($petal-delay + var(--petal-delay)) forwards;
+      petal-x var(--petal-duration) ease-out
+        calc($petal-delay + var(--petal-delay)) forwards,
+      petal-z var(--petal-duration) step-end
+        calc($petal-delay + var(--petal-delay)) forwards;
   }
 }
 
@@ -311,7 +358,9 @@ $envelope-color-sides: $color-primary; // Sides
   transform: translateY(var(--petal-y));
 
   .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     animation: petal-y var(--petal-duration) ease-in
       calc($petal-delay + var(--petal-delay)) forwards;
   }
@@ -325,7 +374,9 @@ $envelope-color-sides: $color-primary; // Sides
   transform: rotate(var(--petal-rot-from));
 
   .envelope--revealing &,
-  .envelope--exiting & {
+  .envelope--exiting &,
+  .envelope--expanding &,
+  .envelope--blending & {
     animation: petal-spin var(--petal-duration) linear
       calc($petal-delay + var(--petal-delay)) forwards;
   }
