@@ -32,7 +32,7 @@ const faqCategories = [
       },
       {
         q: "What touristic activities can I do while in Croatia and Hercegovina?",
-        a: "Please take a look at <a href='https://docs.google.com/document/d/1YHtsDz1PAMM2rCK69JH41a-1yPDKRJX5lpSUaa3GwCk/edit?tab=t.0#heading=h.q1p9y64xtx9q' target='_blank'>this document</a> that lists our recommendations for touristic activities in Croatia and Hercegovina.",
+        a: `Please take a look at <a href='${import.meta.env.BASE_URL}Places to Visit while Travelling to Medj.pdf' target='_blank'>this document</a> that lists our recommendations for touristic activities in Croatia and Hercegovina.`,
       },
     ],
   },
