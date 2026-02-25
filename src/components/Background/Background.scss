@@ -49,10 +49,25 @@
   }
 }
 
+@keyframes sway-animation-keyframes {
+  0% {
+    rotate: -5deg;
+  }
+  50% {
+    rotate: 5deg;
+  }
+  100% {
+    rotate: -5deg;
+  }
+}
+
 .bg-corner-img {
   position: absolute;
   user-select: none;
   -webkit-user-drag: none;
+
+  animation: sway-animation-keyframes 10s ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 // ======================== FALLING FLOWER ANIMATIONS ========================

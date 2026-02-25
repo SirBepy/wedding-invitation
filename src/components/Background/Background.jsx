@@ -49,6 +49,7 @@ const CORNER_LEFT = [
   {
     src: `${BASE}icons/flowers/flower_2.webp`,
     style: {
+      animationDelay: "0.6s",
       bottom: "-30px",
       left: "-70px",
       width: "300px",
@@ -58,6 +59,7 @@ const CORNER_LEFT = [
   {
     src: `${BASE}icons/flowers/flower_1.webp`,
     style: {
+      animationDelay: "1.2s",
       bottom: "-95px",
       left: "140px",
       width: "250px",
@@ -71,6 +73,7 @@ const CORNER_RIGHT = [
   {
     src: `${BASE}icons/flowers/leaves.webp`,
     style: {
+      animationDelay: "2s",
       bottom: "250px",
       right: "10px",
       width: "150px",
@@ -81,6 +84,7 @@ const CORNER_RIGHT = [
   {
     src: `${BASE}icons/flowers/leaves_2.svg`,
     style: {
+      animationDelay: "0.8s",
       bottom: "-130px",
       right: "220px",
       width: "140px",
@@ -92,6 +96,7 @@ const CORNER_RIGHT = [
   {
     src: `${BASE}icons/flowers/flower_3.webp`,
     style: {
+      animationDelay: "1.8s",
       bottom: "-100px",
       right: "-40px",
       width: "350px",
@@ -103,6 +108,7 @@ const CORNER_RIGHT = [
   {
     src: `${BASE}icons/flowers/flower_1.webp`,
     style: {
+      animationDelay: "2.4s",
       bottom: "50px",
       right: "-100px",
       width: "260px",
