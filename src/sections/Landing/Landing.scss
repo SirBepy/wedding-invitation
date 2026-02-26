@@ -4,7 +4,9 @@
   .landing-reveal {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition:
+      opacity 0.6s ease 2s,
+      transform 0.6s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
