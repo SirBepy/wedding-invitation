@@ -209,6 +209,18 @@ export default function Background({ hidden = false }) {
     };
   }, []);
 
+  // Track the visual viewport height (follows browser UI animating in/out in real time)
+  // and expose it as a CSS variable so corner flowers always sit at the true screen bottom.
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () =>
+      document.documentElement.style.setProperty("--visual-vh", `${vv.height}px`);
+    update();
+    vv.addEventListener("resize", update);
+    return () => vv.removeEventListener("resize", update);
+  }, []);
+
   return (
     <>
       <div className={`bg ${hidden ? "bg--hidden" : ""}`}>

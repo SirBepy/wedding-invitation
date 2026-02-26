@@ -15,11 +15,17 @@
   transition-delay: 1s;
 }
 
-// Both layers use 100svh (stable, never changes with browser UI) so that
-// the browser UI showing/hiding doesn't resize these containers.
-.bg,
-.bg-corners {
+// Falling flowers use 100svh (stable) so the clipping box never changes.
+// Corner flowers use --visual-vh (set by visualViewport API in Background.jsx)
+// which tracks the true visible height in real time as browser UI animates in/out,
+// so the flowers always sit at the actual screen bottom with no jump.
+// Falls back to 100svh if visualViewport isn't available (desktop).
+.bg {
   height: 100svh;
+}
+
+.bg-corners {
+  height: var(--visual-vh, 100svh);
 }
 
 .bg--hidden {
