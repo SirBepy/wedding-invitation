@@ -15,16 +15,11 @@
   transition-delay: 1s;
 }
 
-// Falling flowers — clipped to a fixed height so browser UI show/hide doesn't
-// cause flowers to jump (100svh = smallest/stable viewport height).
-.bg {
-  height: 100svh;
-}
-
-// Corner flowers — pinned to the actual viewport bottom so they always sit
-// at the screen edge regardless of browser UI state.
+// Both layers use 100svh (stable, never changes with browser UI) so that
+// the browser UI showing/hiding doesn't resize these containers.
+.bg,
 .bg-corners {
-  bottom: 0;
+  height: 100svh;
 }
 
 .bg--hidden {
