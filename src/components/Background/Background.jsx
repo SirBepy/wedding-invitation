@@ -194,7 +194,11 @@ export default function Background({ hidden = false }) {
 
   useEffect(() => {
     let timer;
+    let lastWidth = window.innerWidth;
     const onResize = () => {
+      const width = window.innerWidth;
+      if (width === lastWidth) return; // height-only change (mobile browser UI), skip
+      lastWidth = width;
       clearTimeout(timer);
       timer = setTimeout(() => setFlowers(generateFallingFlowers()), 200);
     };

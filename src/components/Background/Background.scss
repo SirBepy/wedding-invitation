@@ -3,19 +3,28 @@
 // ======================== SHARED LAYERS ========================
 
 // Both containers are fixed, full-viewport, non-interactive, behind all page content
-// Uses 100svh (small viewport height) instead of bottom:0 so that mobile browser
-// chrome showing/hiding doesn't cause the container to resize and shift corner flowers.
 .bg,
 .bg-corners {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 100svh;
   z-index: -1;
   pointer-events: none;
   transition: opacity 0.6s ease;
   transition-delay: 1s;
+}
+
+// Falling flowers — clipped to a fixed height so browser UI show/hide doesn't
+// cause flowers to jump (100svh = smallest/stable viewport height).
+.bg {
+  height: 100svh;
+}
+
+// Corner flowers — pinned to the actual viewport bottom so they always sit
+// at the screen edge regardless of browser UI state.
+.bg-corners {
+  bottom: 0;
 }
 
 .bg--hidden {
