@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import LocationButton from "../../components/LocationButton/LocationButton";
+import YoureInvited from "../../components/YoureInvited/YoureInvited";
 import "./Landing.scss";
 
 const STAGGER_DELAY = 500; // ms between each group appearing
 const GROUP_COUNT = 10;
 
-export default function Landing({ reveal = false, onRevealDone }) {
+export default function Landing({
+  reveal = false,
+  preAnimateYoureInvited = false,
+  onRevealDone,
+}) {
   const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
@@ -21,15 +26,18 @@ export default function Landing({ reveal = false, onRevealDone }) {
     }
   }, [reveal]);
 
-  const groupClass = (index) =>
-    `landing-reveal ${visibleCount >= index ? "landing-reveal--visible" : ""}`;
+  const groupClass = (index) => {
+    // Group 1 (YoureInvited) can be made visible early for the envelope transition overlap
+    const visible =
+      visibleCount >= index || (preAnimateYoureInvited && index === 1);
+    return `landing-reveal ${visible ? "landing-reveal--visible" : ""}`;
+  };
 
   return (
     <section id="landing" className="section">
       <div className="landing-content">
         <div className={groupClass(1)}>
-          {/* TODO: Replace with handwritten SVG animation */}
-          <h1>You're Invited</h1>
+          <YoureInvited animate={preAnimateYoureInvited || visibleCount >= 1} />
         </div>
         <div className={groupClass(2)}>
           <p className="font-text landing-text">TO THE WEDDING OF</p>

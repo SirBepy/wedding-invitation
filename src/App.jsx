@@ -17,6 +17,7 @@ import "./build-info";
 
 export default function App() {
   const [appPhase, setAppPhase] = useState("envelope");
+  const [preAnimateYoureInvited, setPreAnimateYoureInvited] = useState(false);
 
   const showEnvelope = appPhase === "envelope" || appPhase === "blending";
   const showLandingReveal = appPhase === "revealing" || appPhase === "done";
@@ -28,11 +29,13 @@ export default function App() {
         <Envelope
           onBlend={() => setAppPhase("blending")}
           onComplete={() => setAppPhase("revealing")}
+          onWritingStart={() => setPreAnimateYoureInvited(true)}
         />
       )}
       <Navbar hidden={appPhase !== "done"} />
       <Landing
         reveal={showLandingReveal}
+        preAnimateYoureInvited={preAnimateYoureInvited}
         onRevealDone={() => setAppPhase("done")}
       />
       <Details />

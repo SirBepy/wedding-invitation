@@ -37,10 +37,19 @@ $envelope-color-sides: $color-primary; // Sides
   // ENHANCEMENT: Add a subtle radial gradient, vignette, or particle effect to the backdrop
   transition: background-color 0.5s ease;
 
-  &--exiting,
+  &--revealing,
+  &--letterDown,
+  &--writing,
   &--expanding,
   &--blending {
     pointer-events: none;
+  }
+
+  // Fade the purple backdrop away while the letter is expanding so that when the
+  // letter itself fades out there is no purple flash — the page is already underneath.
+  &--expanding,
+  &--blending {
+    background-color: transparent;
   }
 }
 
@@ -60,9 +69,7 @@ $envelope-color-sides: $color-primary; // Sides
   // Exit: slide the whole envelope down off screen
   transition: transform $exit-duration $exit-easing;
 
-  .envelope--exiting &,
-  .envelope--expanding &,
-  .envelope--blending & {
+  .envelope--body-exiting & {
     transform: translateY(100vh);
   }
 }
@@ -75,11 +82,9 @@ $envelope-color-sides: $color-primary; // Sides
   overflow: hidden;
   border-radius: 4px;
 
-  // Once the flap is open, allow the letter to slide up and be visible above the envelope
+  // Allow the letter to be visible above the envelope while sliding up/down
   .envelope--revealing &,
-  .envelope--exiting &,
-  .envelope--expanding &,
-  .envelope--blending & {
+  .envelope--letterDown & {
     overflow: visible;
   }
 }
@@ -130,8 +135,25 @@ $envelope-color-sides: $color-primary; // Sides
 
   .envelope--revealing & {
     // Slide fully above the envelope — visible because __inner switches to overflow:visible
-    transform: translateY(calc(-100% - 4em));
+    transform: translateY(calc(-105%));
   }
+
+  .envelope--letterDown & {
+    // Slide back to rest on top of the envelope, above the front/sides panels
+    transform: translateY(0);
+    z-index: 4;
+  }
+}
+
+// ======================== LETTER CONTENT ========================
+// Mirrors Landing's flex-column centering so YoureInvited is the same size
+// and position when the letter is fullscreen as it is on the landing page.
+
+.envelope__letter-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 // Detached letter — position:fixed outside envelope body, expands to fill viewport
@@ -205,7 +227,8 @@ $envelope-color-sides: $color-primary; // Sides
 
   .envelope--opening &,
   .envelope--revealing &,
-  .envelope--exiting &,
+  .envelope--letterDown &,
+  .envelope--writing &,
   .envelope--expanding &,
   .envelope--blending & {
     transform: rotateX(180deg);
@@ -259,7 +282,8 @@ $envelope-color-sides: $color-primary; // Sides
 
   .envelope--opening &,
   .envelope--revealing &,
-  .envelope--exiting &,
+  .envelope--letterDown &,
+  .envelope--writing &,
   .envelope--expanding &,
   .envelope--blending & {
     // Outer: horizontal drift + rotation (linear)
@@ -342,7 +366,7 @@ $envelope-color-sides: $color-primary; // Sides
   transform: translateX(var(--petal-x));
 
   .envelope--revealing &,
-  .envelope--exiting &,
+  .envelope--letterDown &,
   .envelope--expanding &,
   .envelope--blending & {
     animation:
@@ -358,7 +382,7 @@ $envelope-color-sides: $color-primary; // Sides
   transform: translateY(var(--petal-y));
 
   .envelope--revealing &,
-  .envelope--exiting &,
+  .envelope--letterDown &,
   .envelope--expanding &,
   .envelope--blending & {
     animation: petal-y var(--petal-duration) ease-in
@@ -374,7 +398,7 @@ $envelope-color-sides: $color-primary; // Sides
   transform: rotate(var(--petal-rot-from));
 
   .envelope--revealing &,
-  .envelope--exiting &,
+  .envelope--letterDown &,
   .envelope--expanding &,
   .envelope--blending & {
     animation: petal-spin var(--petal-duration) linear

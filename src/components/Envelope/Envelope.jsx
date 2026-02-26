@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import "./Envelope.scss";
+import YoureInvited from "../YoureInvited/YoureInvited";
 
 // ======================== CONFIGURATION ========================
 // Time (ms) before the envelope auto-opens if the user hasn't clicked
@@ -11,10 +12,14 @@ const TIMINGS = {
   flapDuration: 800, // How long the flap takes to rotate open
   revealOverlap: 300, // Start letter slide slightly before flap finishes (smoother feel)
   revealPause: 0, // Extra pause after flap opens before letter moves (try 300–600 for a beat)
-  letterDuration: 900, // How long the letter slides up
+  letterDuration: 900, // How long the letter slides up (must match $letter-duration in Envelope.scss)
+  letterDownDuration: 900, // How long the letter slides back down (must match $letter-duration in Envelope.scss)
+  letterDownPause: 200, // ← TWEAK ME: pause after letter settles before YoureInvited starts drawing
+  writingDuration: 1200, // YoureInvited draw duration (must match DRAW_DURATION in YoureInvited.jsx)
+  envelopeExitDelay: 100, // How many ms after writing starts before the envelope body slides off
   petalDelay: 100, // How long after letter starts moving before petals burst
-  exitDuration: 800, // How long the envelope slides off-screen
-  expandDelay: 100, // Pause after envelope exits before letter starts expanding
+  exitDuration: 800, // How long the envelope body slides off-screen
+  expandDelay: 400, // Pause after YoureInvited finishes before letter starts expanding
   expandDuration: 600, // How long the letter takes to scale to full viewport
   blendDuration: 400, // How long the letter overlay takes to fade out
 };
@@ -85,14 +90,16 @@ function generatePetals() {
   return [];
 }
 
-export default function Envelope({ onBlend, onComplete }) {
-  // Phase flow: "closed" → "opening" → "revealing" → "exiting" → "expanding" → "blending" → onComplete()
+export default function Envelope({ onBlend, onComplete, onWritingStart }) {
+  // Phase flow: "closed" → "opening" → "revealing" → "letterDown" → "writing" → "expanding" → "blending" → onComplete()
   const [phase, setPhase] = useState("closed");
+  const [bodyExiting, setBodyExiting] = useState(false);
   const petals = useMemo(generatePetals, []);
   const letterRef = useRef(null);
   const [letterRect, setLetterRect] = useState(null);
 
-  const isDetached = ["exiting", "expanding", "blending"].includes(phase);
+  // Letter detaches from the envelope body when writing starts
+  const isDetached = ["writing", "expanding", "blending"].includes(phase);
 
   // Lock scrolling while envelope is mounted, and reset scroll position
   useEffect(() => {
@@ -110,19 +117,23 @@ export default function Envelope({ onBlend, onComplete }) {
     return () => clearTimeout(timer);
   }, [phase]);
 
-  function handleOpen() {
+  function handleOpen(e) {
+    e?.stopPropagation();
     if (phase !== "closed") return;
     setPhase("opening");
 
-    // When the letter starts moving (flap nearly done + optional pause)
+    // Letter slides up (flap nearly done + optional pause)
     const revealAt =
       TIMINGS.flapDuration - TIMINGS.revealOverlap + TIMINGS.revealPause;
-
-    // Start revealing the letter (+ petals burst shortly after via petalDelay in CSS)
     setTimeout(() => setPhase("revealing"), revealAt);
 
-    // Snapshot letter rect and start exit (body slides down, letter stays)
-    const exitAt = revealAt + TIMINGS.letterDuration;
+    // Letter slides back down, elevated above the envelope (z-index raised in CSS)
+    const letterDownAt = revealAt + TIMINGS.letterDuration;
+    setTimeout(() => setPhase("letterDown"), letterDownAt);
+
+    // Letter detaches from envelope body; YoureInvited starts drawing on it
+    const writingAt =
+      letterDownAt + TIMINGS.letterDownDuration + TIMINGS.letterDownPause;
     setTimeout(() => {
       if (letterRef.current) {
         const rect = letterRef.current.getBoundingClientRect();
@@ -133,27 +144,39 @@ export default function Envelope({ onBlend, onComplete }) {
           height: rect.height,
         });
       }
-      setPhase("exiting");
-    }, exitAt);
+      setPhase("writing");
+      onWritingStart?.();
+    }, writingAt);
 
-    // After envelope body has slid off, start expanding the letter
-    const expandAt = exitAt + TIMINGS.exitDuration + TIMINGS.expandDelay;
-    setTimeout(() => setPhase("expanding"), expandAt);
+    // Envelope body slides off 100ms after writing starts (letter is already detached)
+    setTimeout(
+      () => setBodyExiting(true),
+      writingAt + TIMINGS.envelopeExitDelay,
+    );
 
-    // After letter has expanded, start blending (fade out letter, fade in bg)
-    const blendAt = expandAt + TIMINGS.expandDuration;
+    // After YoureInvited finishes drawing + a pause, expand the letter to fullscreen.
+    // onBlend() fires here so the page background starts fading in during the expansion,
+    // giving it time to be fully visible before the letter itself fades out.
+    const expandAt = writingAt + TIMINGS.writingDuration + TIMINGS.expandDelay;
     setTimeout(() => {
-      setPhase("blending");
+      setPhase("expanding");
       onBlend();
-    }, blendAt);
+    }, expandAt);
+
+    // After letter has expanded, fade it out to reveal the page underneath
+    const blendAt = expandAt + TIMINGS.expandDuration;
+    setTimeout(() => setPhase("blending"), blendAt);
 
     // After blend completes, tell App we're done
     const doneAt = blendAt + TIMINGS.blendDuration;
-    setTimeout(() => onComplete(), blendAt);
+    setTimeout(() => onComplete(), doneAt);
   }
 
   return (
-    <div className={`envelope envelope--${phase}`} onClick={handleOpen}>
+    <div
+      className={`envelope envelope--${phase}${bodyExiting ? " envelope--body-exiting" : ""}`}
+      onClick={handleOpen}
+    >
       <div className="envelope__body">
         {/* __inner has overflow:hidden to clip the letter inside the envelope */}
         <div className="envelope__inner">
@@ -213,7 +236,8 @@ export default function Envelope({ onBlend, onComplete }) {
         </div>
       </div>
 
-      {/* Detached letter — positioned fixed, outside envelope body */}
+      {/* Detached letter — positioned fixed, outside envelope body.
+          Mounts when writing starts so YoureInvited stays mounted through expanding/blending. */}
       {isDetached && letterRect && (
         <div
           className={`envelope__letter envelope__letter--detached ${
@@ -228,7 +252,9 @@ export default function Envelope({ onBlend, onComplete }) {
             "--letter-height": `${letterRect.height}px`,
           }}
         >
-          <div className="envelope__letter-content" />
+          <div className="envelope__letter-content">
+            <YoureInvited animate={true} />
+          </div>
         </div>
       )}
 
