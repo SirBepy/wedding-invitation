@@ -18,7 +18,3 @@ ReactDOM.createRoot(document.getElementById("app")).render(
     <App />
   </React.StrictMode>,
 );
-
-// TODO: Constantly rotating flowers in the background
-// TODO: Writing svg thingy
-// TODO: As the envelope falls, already start resizing the card

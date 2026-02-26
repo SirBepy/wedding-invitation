@@ -156,7 +156,43 @@ $envelope-color-sides: $color-primary; // Sides
   align-items: center;
 }
 
-// Detached letter — position:fixed outside envelope body, expands to fill viewport
+// Background layer — starts at letter position, always expands to fullscreen
+.envelope__letter-bg {
+  position: fixed;
+  top: var(--letter-top);
+  left: var(--letter-left);
+  width: var(--letter-width);
+  height: var(--letter-height);
+  right: auto;
+  bottom: auto;
+  background-color: $color-bg;
+  border-radius: 2px;
+  z-index: 998;
+  box-shadow: 5px 5px 40px 9px rgba(0, 0, 0, 0.171);
+  transition:
+    top $expand-duration $expand-easing,
+    left $expand-duration $expand-easing,
+    width $expand-duration $expand-easing,
+    height $expand-duration $expand-easing,
+    border-radius $expand-duration $expand-easing,
+    box-shadow $expand-duration $expand-easing,
+    opacity $blend-duration ease;
+
+  &--expanded {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  &--fading {
+    opacity: 0;
+  }
+}
+
+// Content layer — moves to match Landing's YoureInvited position
 .envelope__letter--detached {
   position: fixed;
   top: var(--letter-top);
@@ -167,24 +203,22 @@ $envelope-color-sides: $color-primary; // Sides
   bottom: auto;
   z-index: 999;
   transform: none;
-  box-shadow: 5px 5px 40px 9px rgba(0, 0, 0, 0.171);
   transition:
     top $expand-duration $expand-easing,
     left $expand-duration $expand-easing,
     width $expand-duration $expand-easing,
     height $expand-duration $expand-easing,
     border-radius $expand-duration $expand-easing,
-    box-shadow $expand-duration $expand-easing,
     opacity $blend-duration ease;
 }
 
 .envelope__letter--expanded {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
+  top: var(--expand-top, 0);
+  left: var(--expand-left, 0);
+  width: var(--expand-width, 100vw);
+  height: var(--expand-height, 100dvh);
   border-radius: 0;
-  box-shadow: none;
+  background: transparent;
 }
 
 .envelope__letter--fading {

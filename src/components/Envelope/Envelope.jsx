@@ -96,6 +96,7 @@ export default function Envelope({ onBlend, onComplete, onWritingStart }) {
   const petals = useMemo(generatePetals, []);
   const letterRef = useRef(null);
   const [letterRect, setLetterRect] = useState(null);
+  const [expandRect, setExpandRect] = useState(null);
 
   // Letter detaches from the envelope body when writing starts
   const isDetached = ["writing", "expanding", "blending"].includes(phase);
@@ -158,6 +159,11 @@ export default function Envelope({ onBlend, onComplete, onWritingStart }) {
     // giving it time to be fully visible before the letter itself fades out.
     const expandAt = writingAt + TIMINGS.writingDuration + TIMINGS.expandDelay;
     setTimeout(() => {
+      const landingEl = document.getElementById("landing-youre-invited");
+      if (landingEl) {
+        const r = landingEl.getBoundingClientRect();
+        setExpandRect({ top: r.top, left: r.left, width: r.width, height: r.height });
+      }
       setPhase("expanding");
       onBlend();
     }, expandAt);
@@ -233,28 +239,47 @@ export default function Envelope({ onBlend, onComplete, onWritingStart }) {
       </div>
 
       {/* Detached letter — positioned fixed, outside envelope body.
-          Mounts when writing starts so YoureInvited stays mounted through expanding/blending. */}
+          Mounts when writing starts so YoureInvited stays mounted through expanding/blending.
+          Split into two layers: bg expands to fullscreen, content moves to Landing position. */}
       {isDetached && letterRect && (
-        <div
-          className={`envelope__letter envelope__letter--detached ${
-            ["expanding", "blending"].includes(phase)
-              ? "envelope__letter--expanded"
-              : ""
-          } ${phase === "blending" ? "envelope__letter--fading" : ""}`}
-          style={{
-            "--letter-top": `${letterRect.top}px`,
-            "--letter-left": `${letterRect.left}px`,
-            "--letter-width": `${letterRect.width}px`,
-            "--letter-height": `${letterRect.height}px`,
-          }}
-        >
-          <div className="envelope__letter-content">
-            <YoureInvited animate={true} />
-          </div>
-        </div>
-      )}
+        <>
+          {/* Background layer — always expands to fullscreen */}
+          <div
+            className={`envelope__letter-bg${["expanding", "blending"].includes(phase) ? " envelope__letter-bg--expanded" : ""}${phase === "blending" ? " envelope__letter-bg--fading" : ""}`}
+            style={{
+              "--letter-top": `${letterRect.top}px`,
+              "--letter-left": `${letterRect.left}px`,
+              "--letter-width": `${letterRect.width}px`,
+              "--letter-height": `${letterRect.height}px`,
+            }}
+          />
 
-      {/* ENHANCEMENT: Add a "Tap to open" text hint that fades out on click */}
+          {/* Content layer — moves to match Landing's YoureInvited position */}
+          <div
+            className={`envelope__letter envelope__letter--detached ${
+              ["expanding", "blending"].includes(phase)
+                ? "envelope__letter--expanded"
+                : ""
+            } ${phase === "blending" ? "envelope__letter--fading" : ""}`}
+            style={{
+              "--letter-top": `${letterRect.top}px`,
+              "--letter-left": `${letterRect.left}px`,
+              "--letter-width": `${letterRect.width}px`,
+              "--letter-height": `${letterRect.height}px`,
+              ...(expandRect && {
+                "--expand-top": `${expandRect.top}px`,
+                "--expand-left": `${expandRect.left}px`,
+                "--expand-width": `${expandRect.width}px`,
+                "--expand-height": `${expandRect.height}px`,
+              }),
+            }}
+          >
+            <div className="envelope__letter-content">
+              <YoureInvited animate={true} />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

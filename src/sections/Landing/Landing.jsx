@@ -36,7 +36,7 @@ export default function Landing({
   return (
     <section id="landing" className="section">
       <div className="landing-content">
-        <div className={groupClass(1)}>
+        <div id="landing-youre-invited" className={groupClass(1)}>
           <YoureInvited animate={preAnimateYoureInvited || visibleCount >= 1} />
         </div>
         <div className={groupClass(2)}>
