@@ -7,7 +7,7 @@ const BASE = "";
 const timelineItems = [
   { time: "14:00", icon: `${BASE}icons/sign.svg`, title: "Welcome<br/>Party" },
   {
-    time: "16:30",
+    time: "16:00",
     icon: `${BASE}icons/church.svg`,
     title: "Church<br/>Ceremony",
   },
