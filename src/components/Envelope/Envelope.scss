@@ -70,7 +70,7 @@ $envelope-color-sides: $color-primary; // Sides
   transition: transform $exit-duration $exit-easing;
 
   .envelope--body-exiting & {
-    transform: translateY(100vh);
+    transform: translateY(200vh);
   }
 }
 
