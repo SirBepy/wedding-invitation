@@ -3,7 +3,8 @@ import "./Background.scss";
 
 // ======================== CONFIGURATION ========================
 
-const BASE = import.meta.env.BASE_URL;
+// const BASE = import.meta.env.BASE_URL;
+const BASE = "";
 
 // Images picked randomly for the falling effect
 const FALLING_IMAGES = [

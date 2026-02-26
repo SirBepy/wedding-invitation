@@ -25,10 +25,9 @@ const TIMINGS = {
 };
 
 // ======================== PETALS ========================
-const BASE = import.meta.env.BASE_URL;
 const PETAL_IMAGES = Array.from(
   { length: 8 },
-  (_, i) => `${BASE}icons/petals/img${i + 1}.png`,
+  (_, i) => `icons/petals/img${i + 1}.png`,
 );
 
 const PETALS = {
@@ -229,10 +228,7 @@ export default function Envelope({ onBlend, onComplete, onWritingStart }) {
         {/* Flap and seal are outside __inner so they aren't clipped by overflow:hidden */}
         <div className="envelope__flap" />
         <div className="envelope__seal">
-          <img
-            src={`${import.meta.env.BASE_URL}icons/seal.png`}
-            alt="wax seal"
-          />
+          <img src={`icons/seal.png`} alt="wax seal" />
         </div>
       </div>
 

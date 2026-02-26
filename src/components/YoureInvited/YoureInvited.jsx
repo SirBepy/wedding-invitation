@@ -12,7 +12,7 @@ export default function YoureInvited({ animate = false }) {
 
   useEffect(() => {
     let cancelled = false;
-    const url = `${import.meta.env.BASE_URL}icons/youre-invited.svg`;
+    const url = `icons/youre-invited.svg`;
     fetch(url)
       .then((r) => r.text())
       .then((svgText) => {
