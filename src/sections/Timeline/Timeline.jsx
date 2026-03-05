@@ -36,6 +36,8 @@ export default function Timeline() {
       <div className="timeline-content">
         <h1>Wedding Timeline</h1>
 
+        {/* // TODO: Delete this later */}
+        <p className="temporary_description">Times to still be confirmed</p>
         <div className="timeline">
           {timelineItems.map((item) => (
             <div key={item.time} className="timeline__item">
