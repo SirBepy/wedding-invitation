@@ -7,24 +7,28 @@ const faqCategories = [
     questions: [
       {
         q: "Can I bring a plus one?",
-        a: "Please check with us on whatsapp before you RSVP to confirm if you can bring a plus one.",
+        a: "Please check with us on WhatsApp before you RSVP to confirm if you can bring a plus one.",
       },
       {
         q: "Will there be transportation available while in Medugorje?",
         a: "We will organise a shuttle bus for the day of the wedding for any guests who do not have access to a car.",
       },
+      {
+        q: "Is accommodation available at Hotel Storia?",
+        a: "Yes! You can book a room at Hotel Storia through <a href='https://us2.cloudbeds.com/en/reservation/pDz0Sr?mode=popup&currency=bam' target='_blank'>this link</a>, using the code \"<button class='copy-code' data-copy='120926'>120926</button>\" to get the wedding discount for your accomodation!<br /><br />Please note: You <b>can't book the 13th</b> since the hotel is already booked out that day.",
+      },
     ],
   },
   {
-    name: "Travel & Accommodation",
+    name: "Travel",
     questions: [
       {
         q: "Do I need a visa to get to Medugorje?",
-        a: "UK and Canadian guests do not require a visa. For South Africans, please note that you will need a multi-entry Schengen visa. Additionally, you need to enter BiH from a Schengen country.",
+        a: "UK and Canadian guests do not require a visa. For <b>South Africans</b>, please note that you will need a <b>multi-entry Schengen visa</b>. Additionally, you need to enter BiH from a Schengen country (we recommend Croatia).",
       },
       {
         q: "Which airport do I fly to?",
-        a: "If you're wanting to fly directly to Croatia, we'd recommend the Split airport as it is the closet to Medugorje - 2 hours drive away. You can always fly through Zagreb, but Zagreb airport is 5-6 hours drive away.",
+        a: "If you're wanting to fly directly to Croatia, we'd recommend the <b>Split</b> airport as it is the closet to Medugorje - 2 hours drive away. You can always fly through Zagreb, but Zagreb airport is 5-6 hours drive away.",
       },
       {
         q: "If I fly through Split, how do I get to Medugorje?",
@@ -59,6 +63,14 @@ export default function Faqs() {
 
   function toggleQuestion(q) {
     setOpenQuestion((prev) => (prev === q ? null : q));
+  }
+
+  function handleAnswerClick(e) {
+    const btn = e.target.closest(".copy-code");
+    if (!btn) return;
+    navigator.clipboard.writeText(btn.dataset.copy);
+    btn.classList.add("copy-code--copied");
+    setTimeout(() => btn.classList.remove("copy-code--copied"), 1500);
   }
 
   return (
@@ -114,6 +126,7 @@ export default function Faqs() {
                         <p
                           className="faqs-questions__answer font-text"
                           dangerouslySetInnerHTML={{ __html: faq.a }}
+                          onClick={handleAnswerClick}
                         ></p>
                       )}
                     </div>

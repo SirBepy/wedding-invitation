@@ -160,5 +160,45 @@
       font-weight: bold;
       text-decoration: underline;
     }
+
+    .copy-code {
+      background: none;
+      border: none;
+      font: inherit;
+      font-weight: bold;
+      color: inherit;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      letter-spacing: 0;
+      transition: all 0.3s;
+      position: relative;
+
+      &::after {
+        content: "Copied!";
+        position: absolute;
+        bottom: calc(100% + 4px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: $color-primary;
+        color: #fff;
+        font-size: 0.75em;
+        padding: 0.2em 0.5em;
+        border-radius: 4px;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+
+      &:hover {
+        color: $color-accent;
+        text-shadow: 0 0 10px $color-accent;
+      }
+
+      &--copied::after {
+        opacity: 1;
+      }
+    }
   }
 }
