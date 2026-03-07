@@ -18,7 +18,11 @@ const timelineItems = [
   },
   { time: "19:00", icon: `${BASE}icons/plate.svg`, title: "First Course" },
   { time: "19:30", icon: `${BASE}icons/disco.svg`, title: "Party" },
-  { time: "23:00", icon: `${BASE}icons/cake.svg`, title: "Deserts &<br/>Cake" },
+  {
+    time: "23:00",
+    icon: `${BASE}icons/cake.svg`,
+    title: "Desserts &<br/>Cake",
+  },
   { time: "3:00", icon: `${BASE}icons/car.svg`, title: "The End" },
 ];
 
