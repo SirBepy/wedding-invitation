@@ -215,7 +215,10 @@ export default function Background({ hidden = false }) {
     const vv = window.visualViewport;
     if (!vv) return;
     const update = () =>
-      document.documentElement.style.setProperty("--visual-vh", `${vv.height}px`);
+      document.documentElement.style.setProperty(
+        "--visual-vh",
+        `${vv.height}px`,
+      );
     update();
     vv.addEventListener("resize", update);
     return () => vv.removeEventListener("resize", update);

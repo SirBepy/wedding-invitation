@@ -276,7 +276,10 @@ export default function RsvpModal({ isOpen, onClose, onSuccess, groupId }) {
               {state.selectedPeople
                 .filter((p) => p.status)
                 .map((person) => (
-                  <li key={person.rowNumber} className="rsvp-modal__status-item">
+                  <li
+                    key={person.rowNumber}
+                    className="rsvp-modal__status-item"
+                  >
                     <span className="rsvp-modal__status-name font-text-2">
                       {person.name}
                     </span>

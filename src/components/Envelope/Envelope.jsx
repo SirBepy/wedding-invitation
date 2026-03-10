@@ -162,7 +162,12 @@ export default function Envelope({ onBlend, onComplete, onWritingStart }) {
       const landingEl = document.getElementById("landing-youre-invited");
       if (landingEl) {
         const r = landingEl.getBoundingClientRect();
-        setExpandRect({ top: r.top, left: r.left, width: r.width, height: r.height });
+        setExpandRect({
+          top: r.top,
+          left: r.left,
+          width: r.width,
+          height: r.height,
+        });
       }
       setPhase("expanding");
       onBlend();
