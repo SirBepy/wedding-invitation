@@ -9,7 +9,7 @@ const timelineItems = [
   {
     time: "16:00",
     icon: `${BASE}icons/church.svg`,
-    title: "Church<br/>Ceremony",
+    title: "Catholic<br/>Ceremony",
   },
   {
     time: "18:00",

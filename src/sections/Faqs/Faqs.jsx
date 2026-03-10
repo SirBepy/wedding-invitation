@@ -17,6 +17,10 @@ const faqCategories = [
         q: "Is <b>accommodation</b> available at Hotel Storia?",
         a: "Yes! You can book a room at Hotel Storia through <a href='https://us2.cloudbeds.com/en/reservation/pDz0Sr?mode=popup&currency=bam' target='_blank'>this link</a>, using the code \"<button class='copy-code' data-copy='120926'>120926</button>\" to get the wedding discount for your accomodation!<br /><br />Please note: You <b>can't book the 13th</b> since the hotel is already booked out that day.",
       },
+      {
+        q: "<b>What to expect</b> from a Hercegovinian wedding?",
+        a: "If this is your first Balkan wedding, here are a few things that may be different from Western weddings:<br /><br /><b>1. Gathering Before the Ceremony</b><br />Before the church ceremony, guests gather with the couple for drinks, snacks, and music. This is a relaxed time to socialize and celebrate before heading to the church together.<br /><br /><b>2. Car Procession</b><br />We all drive over to the church together. The wedding party leads the way, followed by family and friends in a long line of cars. It's not a quiet drive: expect honking horns, music playing, and lots of excitement as everyone celebrates on the way to the church.<br /><br /><b>3. A Full Catholic Mass</b><br />The wedding ceremony is a full Catholic Mass, which includes readings, prayers, the exchange of vows, and communion. It should be around 1 hour long.<br /><br /><b>4. Lots of Food (Much More Than You Expect!)</b><br />At the reception, instead of a fixed dinner time, food is served in multiple courses throughout the evening. The evening flows between courses of food, dancing, and music. Just when you think the food might be finished… another course may arrive!<br /><br /><b>5. It's a Long Celebration</b><br />The reception usually continues well into the early morning hours, ours will end by 3am. So pace yourself and enjoy the party!",
+      },
     ],
   },
   {
